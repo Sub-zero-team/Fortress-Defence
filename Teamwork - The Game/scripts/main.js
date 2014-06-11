@@ -7,8 +7,8 @@ window.onload = function main() {
         rand,
         stage = new Kinetic.Stage({
             container:'canvas-container',
-            width:1200,
-            height:700
+            width:800,
+            height:600
         }),
         shipsLayer = new Kinetic.Layer(),
         ships=[];
