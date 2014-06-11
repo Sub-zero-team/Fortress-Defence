@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="Telerik Academy Team Sub-zero Fortress Defence">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Fortress-Defence</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Telerik Academy Team Sub-zero Fortress Defence">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fortress-Defence</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="gamecontainer">
         <div id="canvas-container">
-        	<canvas id="the-canvas" width="800" height="600"></canvas>
+            <canvas id="the-canvas" width="800" height="600" class="gamelayer"></canvas>
         </div>
-        <script src="js_lib/kinetic.min.js"></script>
-        <script src="js_lib/jquery.min.js"></script>
-        <script src="scripts/projectile.js"></script>
-        <script src="scripts/main.js"></script>
-        <script src="scripts/ship.js"></script>
-    </body>
+        <div id="gamestartscreen" class="gamelayer">
+            <img src="images/icons/play.png" alt="Play Game" onclick="showLevelScreen()" /><br />
+            <img src="images/icons/settings.png" alt="Settings" onclick="showGameSettings()" />
+        </div>
+        <div id="levelselectscreen" class="gamelayer">
+        </div>
+    </div>
+    <script src="js_lib/kinetic.min.js"></script>
+    <script src="js_lib/jquery.min.js"></script>
+    <script src="scripts/projectile.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/ship.js"></script>
+</body>
 </html>
