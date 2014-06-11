@@ -25,38 +25,38 @@ input,select{vertical-align:middle}
 }
 
 .gamelayer {
-	width:800px;
-	position:absolute;
-	display:none;
+    width: 800px;
+    position: absolute;
+    display: none;
 }
 
 /* Game Starting Menu Screen */
 #gamestartscreen {
-	padding-top:300px;
-	height:230px;
-	text-align:center;
+    padding-top: 320px;
+    height: 230px;
+    text-align: center;
 }
 
-#gamestartscreen img {
-	margin:10px;
-	cursor:pointer;
-}
+    #gamestartscreen img {
+        margin: 10px;
+        cursor: pointer;
+    }
 
 /* Level Selection Screen */
 #levelselectscreen {
-	padding-top:200px;
-	padding-left:37px;
+    padding-top: 200px;
+    padding-left: 30px;
 }
 
-#levelselectscreen input {
-	margin:20px;
-	cursor:pointer;
-	background:url(images/icons/level.png) no-repeat;
-	color:black;
-	padding-right: 60px;
-	padding-bottom: 60px;
-	font-size: 20px;
-	width:64px;
-	height:64px;
-	border:0;
-}
+    #levelselectscreen input {
+        margin: 20px;
+        cursor: pointer;
+        background: url(images/icons/level.png) no-repeat;
+        color: black;
+        padding-right: 60px;
+        padding-bottom: 60px;
+        font-size: 20px;
+        width: 64px;
+        height: 64px;
+        border: 0;
+    }
