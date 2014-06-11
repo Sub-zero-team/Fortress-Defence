@@ -7,8 +7,8 @@ window.onload = function main() {
         rand,
         stage = new Kinetic.Stage({
             container:'canvas-container',
-            width:1200,
-            height:700
+            width:800,
+            height:600
         }),
         shipsLayer = new Kinetic.Layer(),
         ships=[];
@@ -19,7 +19,7 @@ window.onload = function main() {
 
         rand = Math.random(),
             y = rand*(530-400)+400;
-        ship = new Ship(720,y,'images/ships.png',stage,shipsLayer,0.5,30);
+        ship = new Ship(720,y,'images/ships.png',stage,shipsLayer,0.5,30,1);
         ships.push(ship);
         ship.draw();
     }
@@ -59,6 +59,7 @@ window.onload = function main() {
         if(time%100===0){
             generateShips();
         }
+
         update();
         draw();
     }

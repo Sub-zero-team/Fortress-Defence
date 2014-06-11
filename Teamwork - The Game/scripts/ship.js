@@ -1,7 +1,7 @@
 /**
  * Created by ShOnZi on 6/11/2014.
  */
-function Ship(x,y,sprite,stage,layer,speed,damage) {
+function Ship(x,y,sprite,stage,layer,speed,damage,health) {
 
     'use strict';
     var image = new Image(),
@@ -10,6 +10,7 @@ function Ship(x,y,sprite,stage,layer,speed,damage) {
     this.damage=damage;
     this.x=x;
     this.y=y;
+    this.health=health;
     this.speed=speed;
     this.draw = function () {
         image.onload = function () {
@@ -72,4 +73,7 @@ function Ship(x,y,sprite,stage,layer,speed,damage) {
         };
         image.src=sprite;
     };
+    this.remove=function(){
+        ship.destroy();
+    }
 }
