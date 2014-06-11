@@ -6,6 +6,7 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
     'use strict';
     var image = new Image(),
         ship,
+        isDestroyed=false,
         self=this;
     this.damage=damage;
     this.x=x;
@@ -30,14 +31,14 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
                         0, 0, 100, 100,
                         0, 0, 100, 100,
                         0, 0, 100, 100,
-                        0, 0, 100, 100,
-                        0, 0, 100, 100,
-                        0, 0, 100, 100,
-                        0, 0, 100, 100,
-                        0, 0, 100, 100,
-                        0, 0, 100, 100,
-                        0, 0, 100, 100,
-                        0, 0, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
                         0, 2, 100, 100,
                         0, 2, 100, 100,
                         0, 2, 100, 100,
@@ -48,13 +49,13 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
                         0, 2, 100, 100,
                         0, 2, 100, 100,
                         0, 2, 100, 100,
-                        0, 2, 100, 100,
-                        0, 2, 100, 100,
-                        0, 2, 100, 100,
-                        0, 2, 100, 100,
-                        0, 2, 100, 100,
-                        0, 2, 100, 100,
-                        0, 2, 100, 100
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100,
+                        0, 1, 100, 100
                     ]
                 },
                 frameRate: 20,
@@ -73,7 +74,11 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
         };
         image.src=sprite;
     };
-    this.remove=function(){
-        ship.destroy();
+    this.update=function(){
+        if(this.health<=0 && !isDestroyed){
+            isDestroyed=true;
+            //to load sprite
+            //to remove in some time(animation...fade..)
+        }
     }
 }

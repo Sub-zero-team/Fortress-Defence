@@ -1,52 +1,31 @@
 /*jslint browser: true*/
+$(document).ready(function () {
+    var canvas = null,
+        context = null,
+        projectile = null,
+        time = null,
+        rand,
+        shipsLayer = new Kinetic.Layer(),
+        ships = [];
 
-var levels = [];
 
-// 7 levels (without parameters) just for example
-var someLevel = {};
-for (var i = 0; i < 7; i++) {
-    levels.push(someLevel);
-}
+    function generateShip(sprite, speed, health) {
+        var y,
+            ship,
+            stage = new Kinetic.Stage({
+                container: 'canvas-container',
+                width: 800,
+                height: 600
+            });
 
-window.onload = function main() {
-    var canvas = null;
-    var context = null;
-    var projectile = null;
-    var time = null;
-    var rand;
-    var shipsLayer = new Kinetic.Layer();
-    var ships = [];
-
-    init();
-
-    function init() {
-        var elements = document.getElementsByClassName('gamelayer');
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].style.display = 'none';
-        }
-        document.getElementById('gamestartscreen').style.display = 'block';
-
-        // Create buttons for all levels
-        var html = '';
-        for (var i = 0; i < levels.length; i++) {
-            var level = levels[i];
-            html += '<input type="button" value="' + (i + 1) + '">';
-        };
-
-        document.getElementById('levelselectscreen').innerHTML = html;
-
-        // Set the button click event handlers to load some level
-        $('#levelselectscreen input').click(function () {
-            document.getElementById('levelselectscreen').style.display = 'none';
-            document.getElementById('gamestartscreen').style.display = 'none';
-            document.getElementById('gamecontainer').style.background = "none";
-
-            // Start some level
-            initialize();
-        });
+        rand = Math.random();
+        y = rand * (530 - 400) + 400;
+        ship = new Ship(720, y, sprite, stage, shipsLayer, speed, health);
+        ships.push(ship);
+        ship.draw();
     }
 
-    function initialize() {
+    function startGame() {
         // canvas = document.getElementById('the-canvas');
         // context = canvas.getContext('2d');
 
@@ -60,25 +39,12 @@ window.onload = function main() {
         setInterval(animation, 15);
     }
 
-    function generateShips() {
-        var stage = new Kinetic.Stage({
-            container: 'canvas-container',
-            width: 800,
-            height: 600
-        });
-        var y,
-        rand = Math.random(),
-            y = rand * (530 - 400) + 400;
-        ship = new Ship(720, y, 'images/ships.png', stage, shipsLayer, 0.5, 30);
-        ships.push(ship);
-        ship.draw();
-    }
-
     function draw() {
         // Calls drawing functions of the objects
         // Invoked every frame
 
         //projectile.draw(context);
+
     }
 
     function update() {
@@ -87,24 +53,34 @@ window.onload = function main() {
         time += 0.5;
 
         //projectile.update(time);
+        ships.forEach(function (ship) {
+            ship.update();
+        });
     }
 
     function animation() {
         //context.clearRect(0, 0, canvas.width, canvas.height);
 
         if (time % 100 === 0) {
-            generateShips();
+            generateShip('images/ships.png', 0.5, 1);
         }
 
         update();
         draw();
     }
-};
 
-function showLevelScreen() {
-    document.getElementById('levelselectscreen').style.display = 'block';
-}
+    initializeMenu();
 
-function showGameSettings() {
-    //
-}
+    // Set the button click event handlers to load some level
+    $('#levelselectscreen input').click(function () {
+        document.getElementById('levelselectscreen').style.display = 'none';
+        document.getElementById('gamestartscreen').style.display = 'none';
+        document.getElementById('gamecontainer').style.background = "none";
+
+        // Start some level
+        startGame();
+    });
+
+});
+
+
