@@ -17,7 +17,6 @@ window.onload = function main() {
     var shipsLayer = new Kinetic.Layer();
     var ships = [];
 
-<<<<<<< HEAD
     init();
 
     function init() {
@@ -45,13 +44,6 @@ window.onload = function main() {
             // Start some level
             initialize();
         });
-=======
-        rand = Math.random(),
-            y = rand*(530-400)+400;
-        ship = new Ship(720,y,'images/ships.png',stage,shipsLayer,0.5,30,1);
-        ships.push(ship);
-        ship.draw();
->>>>>>> origin/master
     }
 
     function initialize() {
