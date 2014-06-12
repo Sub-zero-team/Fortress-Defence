@@ -9,7 +9,7 @@ $(document).ready(function () {
         ships = [];
 
 
-    function generateShip(sprite, speed, health) {
+    function generateShip(sprite, speed,damage, health) {
         var y,
             ship,
             stage = new Kinetic.Stage({
@@ -20,7 +20,7 @@ $(document).ready(function () {
 
         rand = Math.random();
         y = rand * (530 - 400) + 400;
-        ship = new Ship(720, y, sprite, stage, shipsLayer, speed, health);
+        ship = new Ship(720, y, sprite, stage, shipsLayer, speed, damage, health);
         ships.push(ship);
         ship.draw();
     }
@@ -62,7 +62,7 @@ $(document).ready(function () {
         //context.clearRect(0, 0, canvas.width, canvas.height);
 
         if (time % 100 === 0) {
-            generateShip('images/ships.png', 0.5, 1);
+            generateShip('images/ships.png', 0.5, 10,1);
         }
 
         update();
@@ -80,6 +80,18 @@ $(document).ready(function () {
         // Start some level
         startGame();
     });
+
+    //Temporary for test
+    var i=0;
+    $(document).click(
+        function () {
+            if(ships && ships.length>i){
+                ships[i].health=0;
+                i++;
+            }
+        }
+    )
+
 
 });
 
