@@ -55,8 +55,28 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
                         0, 1, 100, 66,
                         0, 1, 100, 66
                     ],
-                    destroyed: [
-                        190, 0, 100, 100
+                    destroying: [
+                        180, 0, 60, 100,
+                        180, 0, 60, 100,
+                        180, 0, 60, 100,
+                        180, 0, 60, 100,
+                        180, 0, 60, 100,
+                        180, 0, 60, 100,
+                        180, 0, 60, 100,
+                        180, 0, 60, 100,
+                        180, 0, 60, 100,
+                        240, 0, 60, 100,
+                        240, 0, 60, 100,
+                        240, 0, 60, 100,
+                        240, 0, 60, 100,
+                        240, 0, 60, 100,
+                        240, 0, 60, 100,
+                        240, 0, 60, 100,
+                        240, 0, 60, 100,
+                        240, 0, 60, 100
+                    ],
+                    destroyed:[
+                        300, 0, 100, 100
                     ]
                 },
                 frameRate: 20,
@@ -68,7 +88,6 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
             stage.add(layer);
             ship.start();
             ship.on('frameIndexChange', function () {
-
                 ship.setX(ship.attrs.x -= speed);
                 self.x -= speed;
             });
@@ -76,11 +95,14 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
         image.src = sprite;
     };
     this.update = function () {
-
-        if (this.health <= 0 && !isDestroyed) {
+        //check for tower position to collide... for now set to 50
+        if ((this.health <= 0 || this.x<=50 )&& !isDestroyed) {
             isDestroyed = true;
             speed=0;
-            ship.attrs.animation = "destroyed";
+            ship.attrs.animation = "destroying";
+            setTimeout(function () {
+                ship.attrs.animation='destroyed';
+            },800);
             setTimeout(function () {
                 ship.remove();
             }, 5000);

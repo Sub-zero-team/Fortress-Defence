@@ -21,7 +21,7 @@ $(document).ready(function () {
 
         rand = Math.random();
         y = rand * 200 + 290;
-        ship = new Ship(800, y, sprite, stage, shipsLayer, speed, damage, health);
+        ship = new Ship(760, y, sprite, stage, shipsLayer, speed, damage, health);
         ships.push(ship);
         ship.draw();
     }
@@ -63,7 +63,10 @@ $(document).ready(function () {
         //context.clearRect(0, 0, canvas.width, canvas.height);
 
         if (time % 100 === 0) {
-            generateShip('images/ships.png', 0.5, 10, 1);
+            generateShip('images/ships2.png', 2, 10, 2);
+        }
+        if(time % 150===0){
+            generateShip('images/ships3.png', 1, 30, 5);
         }
 
         update();
@@ -87,14 +90,22 @@ $(document).ready(function () {
     });
 
     //Temporary for test
+    testFunction(ships)
+});
+
+
+//Remove on release
+function testFunction(ships) {
     var i = 0;
     $(document).click(
         function () {
             if (ships && ships.length > i) {
-                ships[i].health = 0;
-                i++;
+                ships[i].health--;
+                if( ships[i].health<=0) {
+                    i++;
+                }
             }
         }
     )
-});
+}
 
