@@ -1,23 +1,20 @@
 /*jslint browser: true*/
-$(document).ready(function () {
-    var canvas = null,
-        context = null,
-        projectile = null,
+$(document).ready(function() {
+    var projectile = null,
         time = null,
         rand,
         shipsLayer = new Kinetic.Layer(),
+        projectileLayer = new Kinetic.Layer(),
+        stage = new Kinetic.Stage({
+            container: 'canvas-container',
+            width: 800,
+            height: 600
+        }),
         ships = [];
-
-    backgroundMusic.play();
 
     function generateShip(sprite, speed, damage, health) {
         var y,
-            ship,
-            stage = new Kinetic.Stage({
-                container: 'canvas-container',
-                width: 800,
-                height: 600
-            });
+            ship;
 
         rand = Math.random();
         y = rand * 200 + 290;
@@ -27,13 +24,11 @@ $(document).ready(function () {
     }
 
     function startGame() {
-        // canvas = document.getElementById('the-canvas');
-        // context = canvas.getContext('2d');
-
         // Initializes needed content in the beginning
         // Invoked once
 
-        //projectile = new Projectile(new Point(10, 300), 30 * Math.PI / 180, 50);
+        projectile = new Projectile(10, 300, 30 * Math.PI / 180, 50, projectileLayer);
+        projectile.draw(projectileLayer);
 
         time = 0.5;
 
@@ -43,9 +38,6 @@ $(document).ready(function () {
     function draw() {
         // Calls drawing functions of the objects
         // Invoked every frame
-
-        //projectile.draw(context);
-
     }
 
     function update() {
@@ -53,19 +45,17 @@ $(document).ready(function () {
         // Invoked every frame
         time += 0.5;
 
-        //projectile.update(time);
-        ships.forEach(function (ship) {
+        ships.forEach(function(ship) {
             ship.update();
         });
+        projectile.update();
     }
 
     function animation() {
-        //context.clearRect(0, 0, canvas.width, canvas.height);
-
         if (time % 100 === 0) {
             generateShip('images/ships2.png', 2, 10, 2);
         }
-        if(time % 150===0){
+        if (time % 150 === 0) {
             generateShip('images/ships3.png', 1, 30, 5);
         }
 
@@ -73,10 +63,13 @@ $(document).ready(function () {
         draw();
     }
 
+    backgroundMusic.play();
+    backgroundHandler(stage);
+
     initializeMenu();
 
     // Set the button click event handlers to load some level
-    $('#levelselectscreen input').click(function () {
+    $('#levelselectscreen input').click(function() {
         document.getElementById('gamecontainer').style.background = "none";
         document.getElementById('music').style.display = "block";
         $('#levelselectscreen').hide('slow');
@@ -90,7 +83,7 @@ $(document).ready(function () {
     });
 
     //Temporary for test
-    testFunction(ships)
+    //testFunction(ships);
 });
 
 
@@ -98,14 +91,13 @@ $(document).ready(function () {
 function testFunction(ships) {
     var i = 0;
     $(document).click(
-        function () {
+        function() {
             if (ships && ships.length > i) {
                 ships[i].health--;
-                if( ships[i].health<=0) {
+                if (ships[i].health <= 0) {
                     i++;
                 }
             }
         }
-    )
+    );
 }
-

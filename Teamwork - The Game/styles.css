@@ -26,7 +26,7 @@ input,select{vertical-align:middle}
     src: url('fonts/KingthingsPetrock.ttf');
 }
 
-#background-container {
+#canvas-container {
     position: absolute;
     margin: auto;
     z-index: -10;

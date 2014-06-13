@@ -34,4 +34,3 @@ function showLevelScreen() {
 function showGameSettings() {
     //
 }
-
