@@ -1,7 +1,7 @@
 ﻿var stage = new Kinetic.Stage({
     container: 'background-container',
-    width: 802,
-    height: 602
+    width: 800,
+    height: 600
 });
 var imgLayer = new Kinetic.Layer();
 var imageObj = new Image();
@@ -11,8 +11,8 @@ imageObj.onload = function () {
         x: 0,
         y: 0,
         image: imageObj,
-        width: 802,
-        height: 602
+        width: 800,
+        height: 600
     });
 
     // add the shape to the layer
