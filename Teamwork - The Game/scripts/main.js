@@ -92,22 +92,6 @@ $(document).ready(function() {
         startGame();
     });
 
-    //Temporary for test
-    testFunction(ships);
 });
 
 
-//Remove on release
-function testFunction(ships) {
-    var i = 0;
-    $(document).click(
-        function() {
-            if (ships && ships.length > i) {
-                ships[i].health--;
-                if (ships[i].health <= 0) {
-                    i++;
-                }
-            }
-        }
-    );
-}
