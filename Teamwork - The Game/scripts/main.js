@@ -5,6 +5,7 @@ $(document).ready(function() {
         rand,
         shipsLayer = new Kinetic.Layer(),
         projectileLayer = new Kinetic.Layer(),
+		  fortressLayer = new Kinetic.Layer(),
         stage = new Kinetic.Stage({
             container: 'canvas-container',
             width: 800,
@@ -29,6 +30,9 @@ $(document).ready(function() {
 
         projectile = new Projectile(10, 300, 30 * Math.PI / 180, 50, projectileLayer);
         projectile.draw(projectileLayer);
+		fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, 100);
+       
+        time = 0.5;
 
         time = 0.5;
 
