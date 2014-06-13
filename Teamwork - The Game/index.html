@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Fortress-Defence</title>
     <meta charset="utf-8">
     <meta name="description" content="Telerik Academy Team Sub-zero Fortress Defence">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fortress-Defence</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="scripts/menu.js"></script>
+    <script src="scripts/sound.js"></script>
 </head>
 <body>
     <div id="gamecontainer">
-	<div id='background-container'>
-	</div>
-
+        <a id="title" href="https://github.com/Sub-zero-team/Fortress-Defence">Fortress Defence</a>
+        <img id="music" src="images/icons/sound-on.png" onclick="toggleLevelMusic()" />
+        <img id="frame" src="images/frame.png" />
+        <div id='background-container'></div>
         <div id="canvas-container">
             <canvas id="the-canvas" width="800" height="600" class="gamelayer"></canvas>
         </div>
         <div id="gamestartscreen" class="gamelayer">
-            <img src="images/icons/play.png" alt="Play Game" onclick="showLevelScreen()" /><br />
-            <img src="images/icons/settings.png" alt="Settings" onclick="showGameSettings()" />
+            <img src="images/icons/button-play1.png" alt="Play Game" onclick="showLevelScreen()" /><br />
+            <img src="images/icons/button-settings1.png" alt="Settings" onclick="showGameSettings()" />
         </div>
-        <div id="levelselectscreen" class="gamelayer">
-        </div>
+        <div id="levelselectscreen" class="gamelayer"></div>
     </div>
     <script src="js_lib/kinetic.min.js"></script>
     <script src="js_lib/jquery.min.js"></script>
     <script src="scripts/projectile.js"></script>
-	<script src="scripts/background.js"></script>
+    <script src="scripts/background.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/ship.js"></script>
-    <script src="scripts/menu.js"></script>
 </body>
 </html>

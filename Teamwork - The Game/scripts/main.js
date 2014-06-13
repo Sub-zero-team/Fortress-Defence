@@ -8,8 +8,9 @@ $(document).ready(function () {
         shipsLayer = new Kinetic.Layer(),
         ships = [];
 
+    backgroundMusic.play();
 
-    function generateShip(sprite, speed,damage, health) {
+    function generateShip(sprite, speed, damage, health) {
         var y,
             ship,
             stage = new Kinetic.Stage({
@@ -19,8 +20,8 @@ $(document).ready(function () {
             });
 
         rand = Math.random();
-        y = rand * (530 - 400) + 400;
-        ship = new Ship(720, y, sprite, stage, shipsLayer, speed, damage, health);
+        y = rand * 200 + 290;
+        ship = new Ship(800, y, sprite, stage, shipsLayer, speed, damage, health);
         ships.push(ship);
         ship.draw();
     }
@@ -62,7 +63,7 @@ $(document).ready(function () {
         //context.clearRect(0, 0, canvas.width, canvas.height);
 
         if (time % 100 === 0) {
-            generateShip('images/ships.png', 0.5, 10,1);
+            generateShip('images/ships.png', 0.5, 10, 1);
         }
 
         update();
@@ -73,26 +74,27 @@ $(document).ready(function () {
 
     // Set the button click event handlers to load some level
     $('#levelselectscreen input').click(function () {
-        document.getElementById('levelselectscreen').style.display = 'none';
-        document.getElementById('gamestartscreen').style.display = 'none';
         document.getElementById('gamecontainer').style.background = "none";
+        document.getElementById('music').style.display = "block";
+        $('#levelselectscreen').hide('slow');
+        $('#gamestartscreen').hide('slow');
+        $('#title').hide('slow');
+        backgroundMusic.pause();
 
         // Start some level
+        levelMusic.play();
         startGame();
     });
 
     //Temporary for test
-    var i=0;
+    var i = 0;
     $(document).click(
         function () {
-            if(ships && ships.length>i){
-                ships[i].health=0;
+            if (ships && ships.length > i) {
+                ships[i].health = 0;
                 i++;
             }
         }
     )
-
-
 });
-
 
