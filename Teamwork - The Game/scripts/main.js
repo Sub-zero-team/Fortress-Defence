@@ -48,15 +48,15 @@ $(document).ready(function() {
         // Updates objects state
         // Invoked every frame
         time += 0.5;
-
-        ships.forEach(function(ship) {
-			if(ship.isRemoved){
-				var index = array.indexOf(ship);
-				array.splice(index, 1);
-				
-			}else{		
-				ship.update();
-			}
+		ships.forEach(function(ship) {			
+				if(ship.isRemoved){
+				var index = ships.indexOf(ship);
+				ships.splice(index,1);					
+				}			
+        });
+	
+        ships.forEach(function(ship) {	
+				ship.update();			
         });
         projectile.update();
     }

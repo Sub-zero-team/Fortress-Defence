@@ -97,7 +97,7 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
     };
     this.update = function () {
         //check for tower position to collide... for now set to 50
-        if ((this.health <= 0 || this.x<=50 )&& !isDestroyed) {
+        if ((this.health <= 0 || this.x<=150 )&& !isDestroyed ) {
 			isDestroyed = true;
             speed=0;
             ship.attrs.animation = "destroying";
@@ -105,8 +105,8 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
                 ship.attrs.animation='destroyed';
             },800);
             setTimeout(function () {
-                ship.remove();	
-				self.isRemoved=true;			
+                ship.remove();		
+				self.isRemoved=true;
             }, 5000);			 
         }
     }
