@@ -46,7 +46,13 @@ $(document).ready(function() {
         time += 0.5;
 
         ships.forEach(function(ship) {
-            ship.update();
+			if(ship.isRemoved){
+				var index = array.indexOf(ship);
+				array.splice(index, 1);
+				
+			}else{		
+				ship.update();
+			}
         });
         projectile.update();
     }
@@ -83,7 +89,7 @@ $(document).ready(function() {
     });
 
     //Temporary for test
-    //testFunction(ships);
+    testFunction(ships);
 });
 
 

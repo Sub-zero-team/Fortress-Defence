@@ -10,6 +10,7 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
     this.x = x;
     this.y = y;
     this.health = health;
+	this.isRemoved=false;
     this.speed = speed;
     this.draw = function () {
         image.onload = function () {
@@ -97,15 +98,16 @@ function Ship(x,y,sprite,stage,layer,speed,damage,health) {
     this.update = function () {
         //check for tower position to collide... for now set to 50
         if ((this.health <= 0 || this.x<=50 )&& !isDestroyed) {
-            isDestroyed = true;
+			isDestroyed = true;
             speed=0;
             ship.attrs.animation = "destroying";
             setTimeout(function () {
                 ship.attrs.animation='destroyed';
             },800);
             setTimeout(function () {
-                ship.remove();
-            }, 5000);
+                ship.remove();	
+				self.isRemoved=true;			
+            }, 5000);			 
         }
     }
 }
