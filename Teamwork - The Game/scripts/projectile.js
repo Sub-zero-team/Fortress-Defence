@@ -48,7 +48,7 @@ function Projectile(initX, initY, initAngle, initPower, layer, stage) {
 
         imageObj = new Image();
 
-        imageObj.onload = function() {
+        imageObj.onload = function () {
             anim = new Kinetic.Sprite({
                 x: (initX - RADIUS),
                 y: (initY - RADIUS),
@@ -63,7 +63,7 @@ function Projectile(initX, initY, initAngle, initPower, layer, stage) {
             stage.add(layer);
             anim.start();
 
-            anim.on('frameIndexChange', function(evt) {
+            anim.on('frameIndexChange', function (evt) {
                 if (anim.animation() === 'explode' && ++frameCount > EXPLOSION_FRAME_COUNT) {
                     anim.remove();
                     frameCount = 0;
@@ -74,7 +74,7 @@ function Projectile(initX, initY, initAngle, initPower, layer, stage) {
             });
         };
 
-        imageObj.src = 'images/cannonball.png';
+        imageObj.src = 'images/sprites/cannonball.png';
     }
 
     function initialize() {

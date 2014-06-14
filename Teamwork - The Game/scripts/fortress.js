@@ -1,5 +1,4 @@
 ﻿function Fortress(x, y, sprite, stage, layer, damage, health) {
-
     'use strict';
     var image = new Image(),
     fortress,
@@ -29,6 +28,4 @@
             isDestroyed = true;
         }
     }
-
-
 }

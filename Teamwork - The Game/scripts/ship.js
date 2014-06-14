@@ -1,5 +1,4 @@
 function Ship(x, y, sprite, stage, layer, speed, damage, health) {
-
     'use strict';
     var image = new Image(),
         ship,
@@ -11,8 +10,8 @@ function Ship(x, y, sprite, stage, layer, speed, damage, health) {
     this.health = health;
     this.isDestroyed = false;
     this.speed = speed;
-    this.draw = function() {
-        image.onload = function() {
+    this.draw = function () {
+        image.onload = function () {
             ship = new Kinetic.Sprite({
                 x: x,
                 y: y,
@@ -87,23 +86,23 @@ function Ship(x, y, sprite, stage, layer, speed, damage, health) {
             layer.add(ship);
             stage.add(layer);
             ship.start();
-            ship.on('frameIndexChange', function() {
+            ship.on('frameIndexChange', function () {
                 ship.setX(ship.attrs.x -= speed);
                 self.x -= speed;
             });
         };
         image.src = sprite;
     };
-    this.update = function() {
+    this.update = function () {
         //check for tower position to collide... for now set to 50
         if ((this.health <= 0 || (this.x <= 150 && (200 < this.y && this.y < 400)) || this.x === 0) && !self.isDestroyed) {
             self.isDestroyed = true;
             speed = 0;
             ship.attrs.animation = "destroying";
-            setTimeout(function() {
+            setTimeout(function () {
                 ship.attrs.animation = 'destroyed';
             }, 800);
-            setTimeout(function() {
+            setTimeout(function () {
                 ship.remove();
             }, 5000);
         }
