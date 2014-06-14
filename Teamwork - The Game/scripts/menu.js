@@ -16,8 +16,7 @@ function initializeMenu() {
     }
     document.getElementById('gamestartscreen').style.display = 'block';
 
-    // Create buttons for all levels
-
+    // Creates a button for each one level
     for (var i = 0; i < levels.length; i++) {
         var level = levels[i];
         html += '<input type="button" value="' + (i + 1) + '">';

@@ -1,6 +1,5 @@
 var backgroundMusic = loadSound('audio/intro.mp3');
 var levelMusic = loadSound('audio/level.mp3');
-//var someSound = loadSound('audio/....mp3');
 
 function toggleLevelMusic() {
     var music = document.getElementById('music');

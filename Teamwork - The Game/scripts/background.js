@@ -1,8 +1,8 @@
 ﻿function backgroundHandler(stage) {
     var imgLayer = new Kinetic.Layer();
     var imageObj = new Image();
-    imageObj.src = 'images/background.png'
-    imageObj.onload = function() {
+    imageObj.src = 'images/backgrounds/background-level.png'
+    imageObj.onload = function () {
         var background = new Kinetic.Image({
             x: 0,
             y: 0,
