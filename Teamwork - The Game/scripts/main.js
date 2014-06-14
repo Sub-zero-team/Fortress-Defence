@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-$(document).ready(function() {
+$(document).ready(function () {
     var projectiles = [],
         time = null,
         rand,
@@ -7,14 +7,59 @@ $(document).ready(function() {
         projectileLayer = new Kinetic.Layer(),
         fortressLayer = new Kinetic.Layer(),
         stage = new Kinetic.Stage({
-            container: 'canvas-container',
+            container: 'kinetic-container',
             width: 800,
             height: 600
         }),
         ships = [];
 
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+    var maxHealth = 100;
+    var fortress;
+    canvas = document.getElementById('myCanvas');
+    context = canvas.getContext('2d');
+
+    backgroundMusic.play();
+    backgroundHandler(stage);
+
+    initializeMenu();
+
+    // Set the button click event handlers to load some level
+    $('#levelselectscreen input').click(function () {
+        document.getElementById('gamecontainer').style.background = "none";
+        $('#levelselectscreen').hide('slow');
+        $('#gamestartscreen').hide('slow');
+        $('#title').hide('slow');
+        backgroundMusic.pause();
+
+        // Start some level
+        document.getElementById('myCanvas').style.display = "block";
+        document.getElementById('music').style.display = "block";
+        levelMusic.play();
+        startGame();
+    });
+
+    function startGame() {
+        // Initializes needed content in the beginning
+        // Invoked once
+        fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, maxHealth);
+
+        time = 0.5;
+
+        setInterval(animation, 15);
+    }
+
+    function animation() {
+        if (time % 100 === 0) {
+            generateShip('images/sprites/ship1.png', 2, 10, 2);
+        }
+
+        if (time % 500 === 0) {
+            generateShip('images/sprites/ship2.png', 1, 30, 5);
+        }
+
+        update();
+        draw();
+        progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth);
     }
 
     function generateShip(sprite, speed, damage, health) {
@@ -28,60 +73,8 @@ $(document).ready(function() {
         ship.draw();
     }
 
-    // projectile and ship collision detection
-    function doObjectsCollide(projectile, ship) {
-        var SHIP_SPRITE_OFFSET_Y = 46,
-            SHIP_SPRITE_OFFSET_X = 22,
-            SHIP_HEIGHT = 13,
-            SHIP_WIDTH = 58,
-            bulletY = projectile.positionY,
-            bulletX = projectile.positionX,
-            shipX = ship.x + SHIP_SPRITE_OFFSET_X,
-            shipY = ship.y + SHIP_SPRITE_OFFSET_Y,
-            doCollide = false,
-            isTopHit = null,
-            isBottomHit = null
-            isFrontHit = null
-            isBackHit = null;
-
-        isTopHit = (bulletY + projectile.radius) > shipY; // &&
-        isBottomHit = (bulletY - projectile.radius) < (shipY + SHIP_HEIGHT); // &&
-        isFrontHit = (bulletX + projectile.radius) > shipX; // &&
-        isBackHit = (bulletX - projectile.radius) < (shipX + SHIP_WIDTH);
-
-        doCollide = isTopHit && isBottomHit && isFrontHit && isBackHit;
-
-        return doCollide;
-    }
-
-    function startGame() {
-        // Initializes needed content in the beginning
-        // Invoked once
-        fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, 100);
-
-        time = 0.5;
-
-        setInterval(animation, 15);
-    }
-
-    function draw() {
-        // Calls drawing functions of the objects
-        // Invoked every frame
-
-        // Returns a random integer between min and max
-        // Using Math.round() will give you a non - uniform distribution!
-
-        if (time > 50 && time % 10 === 0 && projectiles.length < 8) {
-            var newProjectile = null,
-                angle = getRandomInt(10, 60),
-                power = getRandomInt(40, 80);
-
-            angle *= Math.PI / 180;
-
-            newProjectile = new Projectile(70, 300, angle, power, projectileLayer, stage);
-
-            projectiles.push(newProjectile);
-        }
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     function update() {
@@ -117,44 +110,58 @@ $(document).ready(function() {
             }
         });*/
 
-        ships.forEach(function(ship) {
+        ships.forEach(function (ship) {
             ship.update();
         });
 
-        projectiles.forEach(function(proj) {
+        projectiles.forEach(function (proj) {
             proj.update();
         });
+
+        // projectile and ship collision detection
+        function doObjectsCollide(projectile, ship) {
+            var SHIP_SPRITE_OFFSET_Y = 46,
+                SHIP_SPRITE_OFFSET_X = 22,
+                SHIP_HEIGHT = 13,
+                SHIP_WIDTH = 58,
+                bulletY = projectile.positionY,
+                bulletX = projectile.positionX,
+                shipX = ship.x + SHIP_SPRITE_OFFSET_X,
+                shipY = ship.y + SHIP_SPRITE_OFFSET_Y,
+                doCollide = false,
+                isTopHit = null,
+                isBottomHit = null
+            isFrontHit = null
+            isBackHit = null;
+
+            isTopHit = (bulletY + projectile.radius) > shipY; // &&
+            isBottomHit = (bulletY - projectile.radius) < (shipY + SHIP_HEIGHT); // &&
+            isFrontHit = (bulletX + projectile.radius) > shipX; // &&
+            isBackHit = (bulletX - projectile.radius) < (shipX + SHIP_WIDTH);
+
+            doCollide = isTopHit && isBottomHit && isFrontHit && isBackHit;
+
+            return doCollide;
+        }
     }
 
-    function animation() {
-        if (time % 100 === 0) {
-            generateShip('images/ships2.png', 2, 10, 2);
-        }
+    function draw() {
+        // Calls drawing functions of the objects
+        // Invoked every frame
 
-        if (time % 500 === 0) {
-            generateShip('images/ships3.png', 1, 30, 5);
-        }
+        // Returns a random integer between min and max
+        // Using Math.round() will give you a non - uniform distribution!
 
-        update();
-        draw();
+        if (time > 50 && time % 10 === 0 && projectiles.length < 8) {
+            var newProjectile = null,
+                angle = getRandomInt(10, 60),
+                power = getRandomInt(40, 80);
+
+            angle *= Math.PI / 180;
+
+            newProjectile = new Projectile(70, 300, angle, power, projectileLayer, stage);
+
+            projectiles.push(newProjectile);
+        }
     }
-
-    backgroundMusic.play();
-    backgroundHandler(stage);
-
-    initializeMenu();
-
-    // Set the button click event handlers to load some level
-    $('#levelselectscreen input').click(function() {
-        document.getElementById('gamecontainer').style.background = "none";
-        document.getElementById('music').style.display = "block";
-        $('#levelselectscreen').hide('slow');
-        $('#gamestartscreen').hide('slow');
-        $('#title').hide('slow');
-        backgroundMusic.pause();
-
-        // Start some level
-        levelMusic.play();
-        startGame();
-    });
 });
