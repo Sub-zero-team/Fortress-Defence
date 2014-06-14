@@ -1,11 +1,11 @@
 ﻿function Fortress(x, y, sprite, stage, layer, damage, health) {
     'use strict';
     var image = new Image(),
-    fortress,
-        isDestroyed = false,
+        fortress,
         self = this;
 
-    this.health = health;
+    this.isDestroyed = false,
+        this.health = health;
     this.damage = damage;
     this.draw = new function () {
         image.onload = function () {
@@ -20,7 +20,8 @@
             layer.add(fortress);
             stage.add(layer);
         }
-    }
+    };
+
     image.src = sprite;
     this.update = function () {
 

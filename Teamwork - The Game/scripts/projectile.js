@@ -7,7 +7,7 @@ function Point(initX, initY) {
 function Projectile(initX, initY, initAngle, initPower, layer, stage) {
     var G = 9.80665, // Acceleration due to gravity at the Earth's surface
         RADIUS = 5,
-        DAMAGE = 2,
+        DAMAGE = 1,
         anim = null,
         velocityX = null,
         velocityY = null,

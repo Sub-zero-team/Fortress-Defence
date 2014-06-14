@@ -95,7 +95,7 @@ function Ship(x, y, sprite, stage, layer, speed, damage, health) {
     };
     this.update = function () {
         //check for tower position to collide... for now set to 50
-        if ((this.health <= 0 || (this.x <= 150 && (200 < this.y && this.y < 400)) || this.x === 0) && !self.isDestroyed) {
+        if ((this.health <= 0 || (this.x <= 150 && this.y < 400)) && !self.isDestroyed) {
             self.isDestroyed = true;
             speed = 0;
             ship.attrs.animation = "destroying";
