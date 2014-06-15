@@ -1,31 +1,32 @@
 /*jslint browser: true*/
 $(document).ready(function () {
     var stage = new Kinetic.Stage({
-            container: 'kinetic-container',
-            width: 800,
-            height: 600
-        }),
-        shipsLayer = new Kinetic.Layer(),
-        projectileLayer = new Kinetic.Layer(),
-        fortressLayer = new Kinetic.Layer(),
-        canonLayer = new Kinetic.Layer(),
-        canvas = document.getElementById('myCanvas'),
-        context = canvas.getContext('2d'),
-        ships = [],
-        projectiles = [],
-        time = null,
-        rand,
-        fortress,
-        canon,
-        maxHealth = 100;
-
+        container: 'kinetic-container',
+        width: 800,
+        height: 600
+    }),
+    shipsLayer = new Kinetic.Layer(),
+    projectileLayer = new Kinetic.Layer(),
+    fortressLayer = new Kinetic.Layer(),
+    canonLayer = new Kinetic.Layer(),
+    canvas = document.getElementById('myCanvas'),
+    context = canvas.getContext('2d'),
+    ships = [],
+    level = null,
+    projectiles = [],
+    time = null,
+    rand,
+    fortress,
+    canon,
+    maxHealth = 100;
 
     backgroundMusic.play();
     backgroundHandler(stage);
-
     initializeMenu();
+
     // Set the button click event handlers to load some level
-    $('#levelselectscreen input').click(function () {
+    $('#levelselectscreen input').click(function (e) {
+        level = e.target.value;
         document.getElementById('gamecontainer').style.background = "none";
         $('#levelselectscreen').hide('slow');
         $('#gamestartscreen').hide('slow');
@@ -145,6 +146,12 @@ $(document).ready(function () {
             if (((ship.x <= 150 && ship.y < 400) || (ship.x <= 0 && ship.y >= 400)) && !ship.isCollided) {
                 ship.isCollided = true;
                 fortress.health -= ship.damage;
+                if (ship.x <= 0 && ship.y >= 400) {
+                    missSound.play();
+                }
+                else {
+                    hitSound.play();
+                }
             }
         }
 
