@@ -1,43 +1,73 @@
 /*jslint browser: true*/
 $(document).ready(function () {
     var stage = new Kinetic.Stage({
-            container: 'kinetic-container',
-            width: 800,
-            height: 600
-        }),
-        shipsLayer = new Kinetic.Layer(),
-        projectileLayer = new Kinetic.Layer(),
-        fortressLayer = new Kinetic.Layer(),
-        canonLayer = new Kinetic.Layer(),
-        canvas = document.getElementById('myCanvas'),
-        context = canvas.getContext('2d'),
-        ships = [],
-        projectiles = [],
-        time = null,
-        rand,
-        fortress,
-        canon,
-        maxHealth = 100;
-
+        container: 'kinetic-container',
+        width: 800,
+        height: 600
+    }),
+    shipsLayer = new Kinetic.Layer(),
+    projectileLayer = new Kinetic.Layer(),
+    fortressLayer = new Kinetic.Layer(),
+    canonLayer = new Kinetic.Layer(),
+    canvas = document.getElementById('myCanvas'),
+    context = canvas.getContext('2d'),
+    ships = [],
+    level = null,
+    projectiles = [],
+    time = null,
+    rand,
+    fortress,
+    canon,
+    maxHealth = 100;
 
     backgroundMusic.play();
     backgroundHandler(stage);
-
     initializeMenu();
+
     // Set the button click event handlers to load some level
-    $('#levelselectscreen input').click(function () {
+    $('#levelselectscreen input').click(function (e) {
+        level = e.target.value;
         document.getElementById('gamecontainer').style.background = "none";
         $('#levelselectscreen').hide('slow');
         $('#gamestartscreen').hide('slow');
         $('#title').hide('slow');
         backgroundMusic.pause();
 
+<<<<<<< HEAD
+    // projectile and ship collision detection
+    function doObjectsCollide(projectile, ship) {
+        var SHIP_SPRITE_OFFSET_Y = 46,
+            SHIP_SPRITE_OFFSET_X = 22,
+            SHIP_HEIGHT = 13,
+            SHIP_WIDTH = 58,
+            bulletY = projectile.positionY,
+            bulletX = projectile.positionX,
+            shipX = ship.x + SHIP_SPRITE_OFFSET_X,
+            shipY = ship.y + SHIP_SPRITE_OFFSET_Y,
+            doCollide = false,
+            isTopHit = null,
+            isBottomHit = null,
+            isFrontHit = null,
+            isBackHit = null;
+
+        isTopHit = (bulletY + projectile.radius) > shipY; // &&
+        isBottomHit = (bulletY - projectile.radius) < (shipY + SHIP_HEIGHT); // &&
+        isFrontHit = (bulletX + projectile.radius) > shipX; // &&
+        isBackHit = (bulletX - projectile.radius) < (shipX + SHIP_WIDTH);
+
+        doCollide = isTopHit && isBottomHit && isFrontHit && isBackHit;
+
+        return doCollide;
+    }
+=======
         // Start some level
         document.getElementById('myCanvas').style.display = "block";
+        document.getElementById('back').style.display = "block";
         document.getElementById('music').style.display = "block";
         levelMusic.play();
         startGame();
     });
+>>>>>>> origin/master
 
     function startGame() {
         // Initializes needed content in the beginning
@@ -145,6 +175,12 @@ $(document).ready(function () {
             if (((ship.x <= 150 && ship.y < 400) || (ship.x <= 0 && ship.y >= 400)) && !ship.isCollided) {
                 ship.isCollided = true;
                 fortress.health -= ship.damage;
+                if (ship.x <= 0 && ship.y >= 400) {
+                    missSound.play();
+                }
+                else {
+                    hitSound.play();
+                }
             }
         }
 

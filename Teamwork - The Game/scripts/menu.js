@@ -3,12 +3,9 @@ function initializeMenu() {
         elements = document.getElementsByClassName('gamelayer'),
         html = '';
 
-    // 9 levels (without parameters) just for example
-    {
-        var someLevel = {};
-        for (var i = 0; i < 9; i++) {
-            levels.push(someLevel);
-        }
+    function Level(level, isLocked) {
+        this.level = level;
+        this.isLocked = isLocked;
     }
 
     for (var i = 0; i < elements.length; i++) {
@@ -16,10 +13,20 @@ function initializeMenu() {
     }
     document.getElementById('gamestartscreen').style.display = 'block';
 
+    // Temporary: 15 levels (without parameters) just for example
+    {
+        levels.push(new Level(1, false));
+        for (var i = 2; i < 16; i++) {
+            var someLevel = new Level(i, true);
+            levels.push(someLevel);
+        }
+    }
+
     // Creates a button for each one level
     for (var i = 0; i < levels.length; i++) {
-        var level = levels[i];
-        html += '<input type="button" value="' + (i + 1) + '">';
+        html += '<input type="button" ' +
+            ((levels[i].isLocked) ? 'disabled' : '') +
+            ' value="' + (i + 1) + '">';
     }
 
     document.getElementById('levelselectscreen').innerHTML = html;
@@ -31,5 +38,9 @@ function showLevelScreen() {
 }
 
 function showGameSettings() {
+    //
+}
+
+function back() {
     //
 }
