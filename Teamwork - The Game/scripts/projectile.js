@@ -23,8 +23,8 @@ function Projectile(layer, stage) {
     self.isExploding = false;
 
     function createPath() {
-        var x = 0,
-            y = 0,
+        var x = self.positionX,
+            y = self.positionY,
             STEP = 0.02,
             t = STEP;
 
@@ -130,6 +130,8 @@ function Projectile(layer, stage) {
         velocityY = initPower * Math.sin(initAngle);
         self.positionY = initY;
         self.positionX = initX;
+        path = null;
+        path = [];
         createPath();
         pathIndex = 0;
         anim.setAnimation('fly');

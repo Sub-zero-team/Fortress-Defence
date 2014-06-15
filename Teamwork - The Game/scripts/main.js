@@ -1,5 +1,6 @@
 /*jslint browser: true*/
 $(document).ready(function() {
+    'use strict';
     var stage = new Kinetic.Stage({
         container: 'kinetic-container',
         width: 800,
@@ -25,6 +26,13 @@ $(document).ready(function() {
     backgroundHandler(stage);
     initializeMenu();
 
+    // Helper function shows current mouse cursor coordinates;
+    document.onmousemove = function(e) {
+        var x = e.pageX - 550;
+        var y = e.pageY - 70;
+        e.target.title = "X: " + x + " Y: " + y;
+    };
+
     // Set the button click event handlers to load some level
     $('#levelselectscreen input').click(function(e) {
         level = e.target.value;
@@ -33,7 +41,6 @@ $(document).ready(function() {
         $('#gamestartscreen').hide('slow');
         $('#title').hide('slow');
         backgroundMusic.pause();
-
 
         // Start some level
         document.getElementById('myCanvas').style.display = "block";
@@ -79,12 +86,8 @@ $(document).ready(function() {
                 }
             }
         }));
-        /*
-        $(document).find('#gamecontainer').on('mousemove', function(ev) {
-            var x = ev.
-        });*/
 
-        animateInterval = setInterval(animation, 15);
+        setInterval(animation, 15);
     }
 
     function animation() {
@@ -152,41 +155,42 @@ $(document).ready(function() {
             proj.update();
         });
 
-        // projectile and ship collision detection
-        function doObjectsCollide(projectile, ship) {
-            var SHIP_SPRITE_OFFSET_Y = 46,
-                SHIP_SPRITE_OFFSET_X = 22,
-                SHIP_HEIGHT = 13,
-                SHIP_WIDTH = 58,
-                bulletY = projectile.positionY,
-                bulletX = projectile.positionX,
-                shipX = ship.x + SHIP_SPRITE_OFFSET_X,
-                shipY = ship.y + SHIP_SPRITE_OFFSET_Y,
-                doCollide = false,
-                isTopHit = null,
-                isBottomHit = null,
-                isFrontHit = null,
-                isBackHit = null;
+    }
 
-            isTopHit = (bulletY + projectile.radius) > shipY; // &&
-            isBottomHit = (bulletY - projectile.radius) < (shipY + SHIP_HEIGHT); // &&
-            isFrontHit = (bulletX + projectile.radius) > shipX; // &&
-            isBackHit = (bulletX - projectile.radius) < (shipX + SHIP_WIDTH);
+    // projectile and ship collision detection
+    function doObjectsCollide(projectile, ship) {
+        var SHIP_SPRITE_OFFSET_Y = 46,
+            SHIP_SPRITE_OFFSET_X = 22,
+            SHIP_HEIGHT = 13,
+            SHIP_WIDTH = 58,
+            bulletY = projectile.positionY,
+            bulletX = projectile.positionX,
+            shipX = ship.x + SHIP_SPRITE_OFFSET_X,
+            shipY = ship.y + SHIP_SPRITE_OFFSET_Y,
+            doCollide = false,
+            isTopHit = null,
+            isBottomHit = null,
+            isFrontHit = null,
+            isBackHit = null;
 
-            doCollide = isTopHit && isBottomHit && isFrontHit && isBackHit;
+        isTopHit = (bulletY + projectile.radius) > shipY; // &&
+        isBottomHit = (bulletY - projectile.radius) < (shipY + SHIP_HEIGHT); // &&
+        isFrontHit = (bulletX + projectile.radius) > shipX; // &&
+        isBackHit = (bulletX - projectile.radius) < (shipX + SHIP_WIDTH);
 
-            return doCollide;
-        }
+        doCollide = isTopHit && isBottomHit && isFrontHit && isBackHit;
 
-        function shipsTowerCollision(ship) {
-            if (((ship.x <= 150 && ship.y < 400) || (ship.x <= 0 && ship.y >= 400)) && !ship.isCollided) {
-                ship.isCollided = true;
-                fortress.health -= ship.damage;
-                if (ship.x <= 0 && ship.y >= 400) {
-                    missSound.play();
-                } else {
-                    hitSound.play();
-                }
+        return doCollide;
+    }
+
+    function shipsTowerCollision(ship) {
+        if (((ship.x <= 150 && ship.y < 400) || (ship.x <= 0 && ship.y >= 400)) && !ship.isCollided) {
+            ship.isCollided = true;
+            fortress.health -= ship.damage;
+            if (ship.x <= 0 && ship.y >= 400) {
+                missSound.play();
+            } else {
+                hitSound.play();
             }
         }
 
