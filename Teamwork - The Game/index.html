@@ -6,31 +6,39 @@
     <meta name="description" content="Telerik Academy Team Sub-zero Fortress Defence">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
-    <script src="scripts/menu.js"></script>
-    <script src="scripts/sound.js"></script>
-    <script src="scripts/progressbar.js"></script>
+    <script src="js_lib/jquery.min.js"></script>
+    <script src="js_lib/kinetic.min.js"></script>
 </head>
 <body>
-    <div id="gamecontainer">
-        <a id="title" href="https://github.com/Sub-zero-team/Fortress-Defence">Fortress Defence</a>
-        <img class="button" id="back" src="images/icons/back.png" onclick="back()" />
-        <img class="button" id="music" src="images/icons/sound-on.png" onclick="toggleLevelMusic()" />
-        <img id="frame" src="images/frame.png" />
-        <div id="kinetic-container"></div>
-        <canvas id="myCanvas" width="800" height="600" style="border: 1px solid black;">Your browser does not have support for canvas.</canvas>
-        <div id="gamestartscreen" class="gamelayer">
-            <img src="images/icons/button-play.png" alt="Play Game" onclick="showLevelScreen()" /><br />
-            <img src="images/icons/button-settings.png" alt="Settings" onclick="showGameSettings()" />
-        </div>
-        <div id="levelselectscreen" class="gamelayer"></div>
-    </div>
-    <script src="js_lib/kinetic.min.js"></script>
-    <script src="js_lib/jquery.min.js"></script>
+    <section id="game-container">
+        <header>
+            <a id="title" href="https://github.com/Sub-zero-team/Fortress-Defence">Fortress Defence</a>
+        </header>
+        <section>
+            <nav>
+                <img id="back" src="images/icons/back.png" onclick="back()" />
+                <img id="music" src="images/icons/sound-on.png" onclick="toggleLevelMusic()" />
+            </nav>
+            <section id="gamestartscreen">
+                <img src="images/icons/button-play.png" alt="Play Game" onclick="showLevelScreen()" /><br />
+                <img src="images/icons/button-settings.png" alt="Settings" onclick="showGameSettings()" />
+            </section>
+            <section>
+                <img id="frame" src="images/frame.png" />
+                <div id="levelselectscreen"></div>
+                <div id="kinetic-container"></div>
+                <canvas id="canvas-container" width="800" height="600">Your browser does not have support for canvas.</canvas>
+            </section>
+        </section>
+    </section>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/menu.js"></script>
     <script src="scripts/background.js"></script>
-    <script src="scripts/ship.js"></script>
+    <script src="scripts/progressbar.js"></script>
+    <script src="scripts/sound.js"></script>
     <script src="scripts/fortress.js"></script>
+    <script src="scripts/ship.js"></script>
     <script src="scripts/cannon.js"></script>
     <script src="scripts/projectile.js"></script>
-    <script src="scripts/main.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 function initializeMenu() {
     var levels = [],
-        elements = document.getElementsByClassName('gamelayer'),
+        elements = $('#levelselectscreen'),
         html = '';
 
     function Level(level, isLocked) {
@@ -11,7 +11,7 @@ function initializeMenu() {
     for (var i = 0; i < elements.length; i++) {
         elements[i].style.display = 'none';
     }
-    document.getElementById('gamestartscreen').style.display = 'block';
+    $('#gamestartscreen').show();
 
     // Temporary: 15 levels (without parameters) just for example
     {
@@ -29,11 +29,12 @@ function initializeMenu() {
             ' value="' + (i + 1) + '">';
     }
 
-    document.getElementById('levelselectscreen').innerHTML = html;
+    $('#levelselectscreen').html(html);
 }
 
 function showLevelScreen() {
-    $('.gamelayer').hide();
+    $('#levelselectscreen').hide();
+    $('#gamestartscreen').hide();
     $('#levelselectscreen').show('slow');
 }
 
