@@ -4,15 +4,23 @@ function Point(initX, initY) {
     this.y = initY;
 }
 
+<<<<<<< HEAD
 function Projectile(layer, stage) {
     var G = 9.80665, // Acceleration due to gravity at the Earth's surface
         RADIUS = 5,
         DAMAGE = 2,
+=======
+function Projectile(initX, initY, initAngle, initPower, layer, stage) {
+    var G = 9.80665, // Acceleration due to gravity at the Earth's surface
+        RADIUS = 5,
+        DAMAGE = 1,
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
         anim = null,
         velocityX = null,
         velocityY = null,
         path = [],
         pathIndex = 0,
+<<<<<<< HEAD
         frameCount = 0,
         self = this;
 
@@ -25,31 +33,63 @@ function Projectile(layer, stage) {
     function createPath() {
         var x = self.positionX,
             y = self.positionY,
+=======
+        spriteAnimations = null,
+        frameCount = 0,
+        self = this;
+
+    self.positionX = initX;
+    self.positionY = initY;
+    self.radius = RADIUS;
+    self.damage = DAMAGE;
+
+    self.isExploding = false;
+
+    function createPath() {
+        var x = 0,
+            y = 0,
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
             STEP = 0.02,
             t = STEP;
 
         while (x <= 800 || y <= 600) {
             /* x = x0 + velocity * time * cos(angle),
              * y = y0 + velocity * time * sin(angle) - 1/2 * G time^2 */
+<<<<<<< HEAD
             x = self.positionX + velocityX * t;
             y = self.positionY - velocityY * t +
+=======
+            x = initX + velocityX * t;
+            y = initY - velocityY * t +
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
                 (0.5 * G * t * t);
             t += STEP;
             path.push(new Point(x, y));
         }
     }
 
+<<<<<<< HEAD
     function initAnimation(spriteAnimations) {
+=======
+    function initAnimation() {
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
         var imageObj = null,
             FRAME_RATE = 23,
             EXPLOSION_FRAME_COUNT = 27;
 
         imageObj = new Image();
 
+<<<<<<< HEAD
         imageObj.onload = function() {
             anim = new Kinetic.Sprite({
                 x: 0,
                 y: 0,
+=======
+        imageObj.onload = function () {
+            anim = new Kinetic.Sprite({
+                x: (initX - RADIUS),
+                y: (initY - RADIUS),
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
                 image: imageObj,
                 animation: 'fly',
                 animations: spriteAnimations,
@@ -61,6 +101,7 @@ function Projectile(layer, stage) {
             stage.add(layer);
             anim.start();
 
+<<<<<<< HEAD
             anim.on('frameIndexChange', function(evt) {
                 if (anim.animation() === 'explode') {
                     anim.setX(self.positionX - 5);
@@ -72,6 +113,12 @@ function Projectile(layer, stage) {
                     } else {
                         frameCount += 1;
                     }
+=======
+            anim.on('frameIndexChange', function (evt) {
+                if (anim.animation() === 'explode' && ++frameCount > EXPLOSION_FRAME_COUNT) {
+                    anim.remove();
+                    frameCount = 0;
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
                 } else {
                     anim.setX(self.positionX);
                     anim.setY(self.positionY);
@@ -83,12 +130,21 @@ function Projectile(layer, stage) {
     }
 
     function initialize() {
+<<<<<<< HEAD
         var spriteAnimations = null,
             EXPLOSION_HEIGHT = 42,
+=======
+        var EXPLOSION_HEIGHT = 42,
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
             FIRST_ROW_Y = 1,
             SECOND_ROW_Y = 45,
             THIRD_ROW_Y = 89;
 
+<<<<<<< HEAD
+=======
+        velocityX = initPower * Math.cos(initAngle);
+        velocityY = initPower * Math.sin(initAngle);
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
         spriteAnimations = {
             fly: [50, 90, 10, 10],
             explode: [
@@ -121,6 +177,7 @@ function Projectile(layer, stage) {
                 24, THIRD_ROW_Y, 20, EXPLOSION_HEIGHT
             ]
         };
+<<<<<<< HEAD
 
         initAnimation(spriteAnimations);
     }
@@ -157,5 +214,39 @@ function Projectile(layer, stage) {
         }
     };
 
+=======
+        self.reset();
+        self.isExploding = false;
+        createPath();
+        initAnimation();
+    }
+
+    self.reset = function resetPosition() {
+        self.positionY = initY;
+        self.positionX = initX;
+        pathIndex = 0;
+        self.isExploding = false;
+    };
+
+    self.update = function updateProjectile(boost) {
+        if (!self.isExploding && (self.positionY < 600 && self.positionX < 800)) {
+            self.positionX = path[pathIndex].x;
+            self.positionY = path[pathIndex].y;
+            pathIndex += (boost || 2);
+        } else if (self.isExploding && (anim.animation() !== 'explode')) {
+            anim.setAnimation('explode');
+            self.positionX -= 10;
+            self.positionY -= 37;
+            frameCount = 0;
+        } else {
+            self.isExploding = true;
+        }
+    };
+
+    self.draw = function drawProjectile() {
+        // Not used to be deleted
+    };
+
+>>>>>>> 859bfd55e6cf796fcc914b7b45800c0190e3954b
     initialize();
 }
