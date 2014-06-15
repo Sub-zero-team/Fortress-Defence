@@ -9,8 +9,7 @@ function toggleLevelMusic() {
     if (levelMusic.paused) {
         levelMusic.play();
         music.src = 'images/icons/sound-on.png';
-    }
-    else {
+    } else {
         //levelMusic.volume = 0.2;
         levelMusic.pause();
         music.src = 'images/icons/sound-off.png';

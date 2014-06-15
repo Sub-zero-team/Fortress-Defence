@@ -39,20 +39,16 @@ function progressBar(context, x, y, w, h, power, maxPower) {
             ctx.arc(x + radius, y + radius, radius,
                 Math.PI - Math.acos((radius - width) / radius),
                 Math.PI + Math.acos((radius - width) / radius));
-        }
-        else {
+        } else {
             ctx.arc(x + radius, y + radius, radius, Math.PI / 2, 3 * Math.PI / 2);
             if (width + radius > w) {
                 position = radius - Math.sqrt(radius * radius - Math.pow(radius - w + width, 2));
                 ctx.rect(x + radius, y, width - 2 * radius, height);
-                ctx.arc(x + w - radius + 1, y + radius, radius,
-                    -Math.PI / 2,
-                    -Math.acos((radius - w + width) / radius));
+                ctx.arc(x + w - radius + 1, y + radius, radius, -Math.PI / 2, -Math.acos((radius - w + width) / radius));
                 ctx.arc(x + w - radius + 1, y + radius, radius,
                     Math.acos((radius - w + width) / radius),
                     Math.PI / 2);
-            }
-            else {
+            } else {
                 ctx.rect(x + radius, y, width - radius, height);
             }
         }
