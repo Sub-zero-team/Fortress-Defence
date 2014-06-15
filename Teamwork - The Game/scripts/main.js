@@ -45,8 +45,8 @@ $(document).ready(function () {
         fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, maxHealth);
 
         time = 0.5;
-        canon = new Cannon(100, 200, stage, canonLayer);
-        animateInterval = setInterval(animation, 15);
+        canon = new Cannon(135, 240, stage, canonLayer);
+        setInterval(animation, 15);
     }
 
     function animation() {
@@ -104,8 +104,8 @@ $(document).ready(function () {
                 }
             }
         }
-        fortress.update();
 
+        fortress.update();
         ships.forEach(function (ship) {
             ship.update();
             shipsTowerCollision(ship);
@@ -159,16 +159,21 @@ $(document).ready(function () {
 
         // Returns a random integer between min and max
         // Using Math.round() will give you a non - uniform distribution!
-        if (time > 50 && time % 10 === 0 && projectiles.length < 8) {
-            var newProjectile = null,
-                angle = getRandomInt(10, 60),
-                power = getRandomInt(40, 80);
+        $(document).keyup(function (evt) {
+            if (evt.keyCode===32 && projectiles.length < 3) {
+                var newProjectile = null,
+                    angle = canon.angleDegrees + 65,
+                    power = getRandomInt(10, 80),
+                    x,
+                    y;
 
-            angle *= Math.PI / 180;
+                angle *= Math.PI / 180;
+                x = canon.x - 5 + 60 * Math.cos(-angle);
+                y = canon.y + 10 + 60 * Math.sin(-angle);
+                newProjectile = new Projectile(x, y, angle, power, projectileLayer, stage);
 
-            newProjectile = new Projectile(155, 245, angle, power, projectileLayer, stage);
-
-            projectiles.push(newProjectile);
-        }
+                projectiles.push(newProjectile);
+            }
+        });
     }
 });

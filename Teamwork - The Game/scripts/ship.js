@@ -57,22 +57,9 @@ function Ship(x, y, sprite, stage, layer, speed, damage, health) {
                     destroying: [
                         180, 0, 60, 100,
                         180, 0, 60, 100,
-                        180, 0, 60, 100,
-                        180, 0, 60, 100,
-                        180, 0, 60, 100,
-                        180, 0, 60, 100,
-                        180, 0, 60, 100,
-                        180, 0, 60, 100,
-                        180, 0, 60, 100,
-                        240, 0, 60, 100,
-                        240, 0, 60, 100,
-                        240, 0, 60, 100,
-                        240, 0, 60, 100,
-                        240, 0, 60, 100,
-                        240, 0, 60, 100,
-                        240, 0, 60, 100,
                         240, 0, 60, 100,
                         240, 0, 60, 100
+
                     ],
                     destroyed: [
                         300, 0, 100, 100
@@ -101,7 +88,7 @@ function Ship(x, y, sprite, stage, layer, speed, damage, health) {
             ship.attrs.animation = "destroying";
             setTimeout(function () {
                 ship.attrs.animation = 'destroyed';
-            }, 800);
+            },300);
             setTimeout(function () {
                 ship.remove();
             }, 5000);
