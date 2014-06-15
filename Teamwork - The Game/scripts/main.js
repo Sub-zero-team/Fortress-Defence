@@ -114,9 +114,11 @@ $(document).ready(function() {
         update();
         progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth, true, 'red');
         progressBar(context, 120, 140, 100, 16, power, 100, false, 'green');
-
-        context.fillStyle = 'red';
-        context.font = '20px Consolas';
+        context.fillStyle = 'black';
+		context.font = '30px Gregorian';
+		 context.fillText('Score: '+ score, 53 ,553 );
+        context.fillStyle = '#b1d8f5';
+      
         context.fillText('Score: '+ score, 50 ,550 );
     }
 
@@ -212,9 +214,13 @@ $(document).ready(function() {
 
         if (fortress.isDestroyed) {
             clearInterval(frame);
-            context.fillStyle = 'red';
-            context.font = '50px Consolas';
-            context.fillText('Game Over', 300 ,350 );
+          
+			context.fillStyle = 'black';
+			//context.strokeStyle = 'black';
+            context.font = '60px Gregorian';
+			  context.fillText('GAME OVER', 253 ,403 );
+			  context.fillStyle = '#b1d8f5';
+			  context.fillText('GAME OVER', 250 ,400 );
         }
     }
 });
