@@ -1,31 +1,32 @@
 /*jslint browser: true*/
-$(document).ready(function () {
+$(document).ready(function() {
     var stage = new Kinetic.Stage({
         container: 'kinetic-container',
         width: 800,
         height: 600
     }),
-    shipsLayer = new Kinetic.Layer(),
-    projectileLayer = new Kinetic.Layer(),
-    fortressLayer = new Kinetic.Layer(),
-    canonLayer = new Kinetic.Layer(),
-    canvas = document.getElementById('myCanvas'),
-    context = canvas.getContext('2d'),
-    ships = [],
-    level = null,
-    projectiles = [],
-    time = null,
-    rand,
-    fortress,
-    canon,
-    maxHealth = 100;
+        shipsLayer = new Kinetic.Layer(),
+        projectileLayer = new Kinetic.Layer(),
+        fortressLayer = new Kinetic.Layer(),
+        canonLayer = new Kinetic.Layer(),
+        canvas = document.getElementById('myCanvas'),
+        context = canvas.getContext('2d'),
+        ships = [],
+        level = null,
+        projectiles = [],
+        time = null,
+        rand,
+        fortress,
+        canon,
+        maxHealth = 100,
+        MAX_PROJECTILES = 8;
 
     backgroundMusic.play();
     backgroundHandler(stage);
     initializeMenu();
 
     // Set the button click event handlers to load some level
-    $('#levelselectscreen input').click(function (e) {
+    $('#levelselectscreen input').click(function(e) {
         level = e.target.value;
         document.getElementById('gamecontainer').style.background = "none";
         $('#levelselectscreen').hide('slow');
@@ -33,32 +34,6 @@ $(document).ready(function () {
         $('#title').hide('slow');
         backgroundMusic.pause();
 
-
-    // projectile and ship collision detection
-    function doObjectsCollide(projectile, ship) {
-        var SHIP_SPRITE_OFFSET_Y = 46,
-            SHIP_SPRITE_OFFSET_X = 22,
-            SHIP_HEIGHT = 13,
-            SHIP_WIDTH = 58,
-            bulletY = projectile.positionY,
-            bulletX = projectile.positionX,
-            shipX = ship.x + SHIP_SPRITE_OFFSET_X,
-            shipY = ship.y + SHIP_SPRITE_OFFSET_Y,
-            doCollide = false,
-            isTopHit = null,
-            isBottomHit = null,
-            isFrontHit = null,
-            isBackHit = null;
-
-        isTopHit = (bulletY + projectile.radius) > shipY; // &&
-        isBottomHit = (bulletY - projectile.radius) < (shipY + SHIP_HEIGHT); // &&
-        isFrontHit = (bulletX + projectile.radius) > shipX; // &&
-        isBackHit = (bulletX - projectile.radius) < (shipX + SHIP_WIDTH);
-
-        doCollide = isTopHit && isBottomHit && isFrontHit && isBackHit;
-
-        return doCollide;
-    }
 
         // Start some level
         document.getElementById('myCanvas').style.display = "block";
@@ -71,11 +46,45 @@ $(document).ready(function () {
     function startGame() {
         // Initializes needed content in the beginning
         // Invoked once
-        fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, maxHealth);
+        var newProjectile = null,
+            i = 0;
 
         time = 0.5;
-        canon = new Cannon(135, 240, stage, canonLayer);
-        setInterval(animation, 15);
+
+        canon = new Cannon(30, 160, stage, canonLayer);
+        fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, maxHealth);
+
+        // Creates projectiles list
+        for (i = 0; i < MAX_PROJECTILES; i += 1) {
+            newProjectile = new Projectile(projectileLayer, stage);
+            projectiles.push(newProjectile);
+        }
+
+        $(document).on('keyup', (function(evt) {
+            if (evt.keyCode === 32) {
+                var i = 0,
+                    angle = canon.angleDegrees,
+                    power = getRandomInt(10, 80),
+                    x = 0,
+                    y = 0;
+
+                angle *= Math.PI / 180;
+                x = canon.x + 60 * Math.cos(angle);
+                y = canon.y - 60 * Math.sin(angle);
+                for (i = 0; i < MAX_PROJECTILES; i += 1) {
+                    if (!projectiles[i].isActive) {
+                        projectiles[i].reset(x, y, angle, power);
+                        break;
+                    }
+                }
+            }
+        }));
+        /*
+        $(document).find('#gamecontainer').on('mousemove', function(ev) {
+            var x = ev.
+        });*/
+
+        animateInterval = setInterval(animation, 15);
     }
 
     function animation() {
@@ -116,10 +125,9 @@ $(document).ready(function () {
         time += 0.5;
         time %= 10000000; // Prevents time from overflow
 
-        for (projCount = projectiles.length - 1; projCount >= 0; projCount -= 1) {
-            if (projectiles[projCount].isExploding) { // Removes blown projectiles
-                projectiles.splice(projCount, 1);
-            } else {
+        for (projCount = MAX_PROJECTILES - 1; projCount >= 0; projCount -= 1) {
+            // Checks for collission only if current projectile is active
+            if (projectiles[projCount].isActive) {
                 for (shipCount = ships.length - 1; shipCount >= 0; shipCount -= 1) {
                     if (ships[shipCount].isDestroyed) { // Removes destroyed ships
                         ships.splice(shipCount, 1);
@@ -133,14 +141,14 @@ $(document).ready(function () {
                 }
             }
         }
-
         fortress.update();
-        ships.forEach(function (ship) {
+
+        ships.forEach(function(ship) {
             ship.update();
             shipsTowerCollision(ship);
         });
 
-        projectiles.forEach(function (proj) {
+        projectiles.forEach(function(proj) {
             proj.update();
         });
 
@@ -176,8 +184,7 @@ $(document).ready(function () {
                 fortress.health -= ship.damage;
                 if (ship.x <= 0 && ship.y >= 400) {
                     missSound.play();
-                }
-                else {
+                } else {
                     hitSound.play();
                 }
             }
@@ -191,24 +198,5 @@ $(document).ready(function () {
     function draw() {
         // Calls drawing functions of the objects
         // Invoked every frame
-
-        // Returns a random integer between min and max
-        // Using Math.round() will give you a non - uniform distribution!
-        $(document).keyup(function (evt) {
-            if (evt.keyCode===32 && projectiles.length < 3) {
-                var newProjectile = null,
-                    angle = canon.angleDegrees + 65,
-                    power = getRandomInt(10, 80),
-                    x,
-                    y;
-
-                angle *= Math.PI / 180;
-                x = canon.x - 5 + 60 * Math.cos(-angle);
-                y = canon.y + 10 + 60 * Math.sin(-angle);
-                newProjectile = new Projectile(x, y, angle, power, projectileLayer, stage);
-
-                projectiles.push(newProjectile);
-            }
-        });
     }
 });

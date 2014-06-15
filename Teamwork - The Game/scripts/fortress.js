@@ -4,11 +4,11 @@
         fortress,
         self = this;
 
-    this.isDestroyed = false,
-        this.health = health;
+    this.isDestroyed = false;
+    this.health = health;
     this.damage = damage;
-    this.draw = new function () {
-        image.onload = function () {
+    this.draw = new function() {
+        image.onload = function() {
             fortress = new Kinetic.Image({
                 x: x,
                 y: y,
@@ -23,7 +23,7 @@
     };
 
     image.src = sprite;
-    this.update = function () {
+    this.update = function() {
 
         if ((this.health <= 0) && !isDestroyed) {
             isDestroyed = true;

@@ -4,24 +4,22 @@ function Point(initX, initY) {
     this.y = initY;
 }
 
-function Projectile(initX, initY, initAngle, initPower, layer, stage) {
+function Projectile(layer, stage) {
     var G = 9.80665, // Acceleration due to gravity at the Earth's surface
         RADIUS = 5,
-        DAMAGE = 1,
+        DAMAGE = 2,
         anim = null,
         velocityX = null,
         velocityY = null,
         path = [],
         pathIndex = 0,
-        spriteAnimations = null,
         frameCount = 0,
         self = this;
 
-    self.positionX = initX;
-    self.positionY = initY;
     self.radius = RADIUS;
     self.damage = DAMAGE;
 
+    self.isActive = false;
     self.isExploding = false;
 
     function createPath() {
@@ -33,25 +31,25 @@ function Projectile(initX, initY, initAngle, initPower, layer, stage) {
         while (x <= 800 || y <= 600) {
             /* x = x0 + velocity * time * cos(angle),
              * y = y0 + velocity * time * sin(angle) - 1/2 * G time^2 */
-            x = initX + velocityX * t;
-            y = initY - velocityY * t +
+            x = self.positionX + velocityX * t;
+            y = self.positionY - velocityY * t +
                 (0.5 * G * t * t);
             t += STEP;
             path.push(new Point(x, y));
         }
     }
 
-    function initAnimation() {
+    function initAnimation(spriteAnimations) {
         var imageObj = null,
             FRAME_RATE = 23,
             EXPLOSION_FRAME_COUNT = 27;
 
         imageObj = new Image();
 
-        imageObj.onload = function () {
+        imageObj.onload = function() {
             anim = new Kinetic.Sprite({
-                x: (initX - RADIUS),
-                y: (initY - RADIUS),
+                x: 0,
+                y: 0,
                 image: imageObj,
                 animation: 'fly',
                 animations: spriteAnimations,
@@ -63,10 +61,17 @@ function Projectile(initX, initY, initAngle, initPower, layer, stage) {
             stage.add(layer);
             anim.start();
 
-            anim.on('frameIndexChange', function (evt) {
-                if (anim.animation() === 'explode' && ++frameCount > EXPLOSION_FRAME_COUNT) {
-                    anim.remove();
-                    frameCount = 0;
+            anim.on('frameIndexChange', function(evt) {
+                if (anim.animation() === 'explode') {
+                    anim.setX(self.positionX - 5);
+                    anim.setY(self.positionY - 37);
+                    if (frameCount > EXPLOSION_FRAME_COUNT) {
+                        anim.hide();
+                        self.isActive = false;
+                        frameCount = 0;
+                    } else {
+                        frameCount += 1;
+                    }
                 } else {
                     anim.setX(self.positionX);
                     anim.setY(self.positionY);
@@ -78,13 +83,12 @@ function Projectile(initX, initY, initAngle, initPower, layer, stage) {
     }
 
     function initialize() {
-        var EXPLOSION_HEIGHT = 42,
+        var spriteAnimations = null,
+            EXPLOSION_HEIGHT = 42,
             FIRST_ROW_Y = 1,
             SECOND_ROW_Y = 45,
             THIRD_ROW_Y = 89;
 
-        velocityX = initPower * Math.cos(initAngle);
-        velocityY = initPower * Math.sin(initAngle);
         spriteAnimations = {
             fly: [50, 90, 10, 10],
             explode: [
@@ -117,36 +121,38 @@ function Projectile(initX, initY, initAngle, initPower, layer, stage) {
                 24, THIRD_ROW_Y, 20, EXPLOSION_HEIGHT
             ]
         };
-        self.reset();
-        self.isExploding = false;
-        createPath();
-        initAnimation();
+
+        initAnimation(spriteAnimations);
     }
 
-    self.reset = function resetPosition() {
+    self.reset = function resetPosition(initX, initY, initAngle, initPower) {
+        velocityX = initPower * Math.cos(initAngle);
+        velocityY = initPower * Math.sin(initAngle);
         self.positionY = initY;
         self.positionX = initX;
+        createPath();
         pathIndex = 0;
+        anim.setAnimation('fly');
+        anim.show();
         self.isExploding = false;
+        self.isActive = true;
     };
 
     self.update = function updateProjectile(boost) {
-        if (!self.isExploding && (self.positionY < 600 && self.positionX < 800)) {
-            self.positionX = path[pathIndex].x;
-            self.positionY = path[pathIndex].y;
-            pathIndex += (boost || 2);
-        } else if (self.isExploding && (anim.animation() !== 'explode')) {
-            anim.setAnimation('explode');
-            self.positionX -= 10;
-            self.positionY -= 37;
-            frameCount = 0;
-        } else {
-            self.isExploding = true;
-        }
-    };
+        if (self.isActive) {
+            if (!self.isExploding && self.positionY <= 600 && self.positionX <= 800) {
+                self.positionX = path[pathIndex].x;
+                self.positionY = path[pathIndex].y;
+                pathIndex += (boost || 2);
+            } else {
+                self.isExploding = true;
+            }
 
-    self.draw = function drawProjectile() {
-        // Not used to be deleted
+            if (self.isExploding && anim.animation() !== 'explode') {
+                anim.setAnimation('explode');
+                frameCount = 0;
+            }
+        }
     };
 
     initialize();

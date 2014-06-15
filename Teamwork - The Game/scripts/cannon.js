@@ -1,24 +1,28 @@
-function Cannon(cannonX, cannonY,stage,layer){
+function Cannon(cannonX, cannonY, stage, layer) {
 
     'use strict';
 
-    var image=new Image(),
-        cannon,
-        self=this;
+    var INITIAL_ANGLE = 0,
+        image = new Image(),
+        cannon = null,
+        self = this;
 
-    self.x=cannonX;
-    self.y=cannonY;
-    self.angleDegrees=330;
+    self.x = cannonX;
+    self.y = cannonY;
+    self.angleDegrees = INITIAL_ANGLE;
 
-    self.draw = new function () {
-        image.onload = function () {
+    self.draw = new function() {
+        image.onload = function() {
             cannon = new Kinetic.Image({
                 x: cannonX,
                 y: cannonY,
                 image: image,
                 width: 60,
                 height: 30,
-                offset:{x:0,y:15}
+                offset: {
+                    x: 0,
+                    y: 15
+                }
             }).rotate(self.angleDegrees); //slight rotation so the fortress is straight
 
             layer.add(cannon);
@@ -27,18 +31,17 @@ function Cannon(cannonX, cannonY,stage,layer){
     };
     image.src = 'images/gun.png';
 
-    $(document).keydown(function(e){
+    $(document).keydown(function(e) {
         if (e.keyCode == 38) {
-            if(self.angleDegrees<340) {
+            if (self.angleDegrees < 60) {
                 cannon.rotate(-1);
-                self.angleDegrees++;
+                self.angleDegrees += 1;
             }
         }
         if (e.keyCode == 40) {
-            if(self.angleDegrees>310)
-            {
+            if (self.angleDegrees > 0) {
                 cannon.rotate(1);
-                self.angleDegrees--;
+                self.angleDegrees -= 1;
             }
         }
         layer.add(cannon);
