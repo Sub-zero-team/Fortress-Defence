@@ -35,6 +35,7 @@ $(document).ready(function () {
 
         // Start some level
         document.getElementById('myCanvas').style.display = "block";
+        document.getElementById('back').style.display = "block";
         document.getElementById('music').style.display = "block";
         levelMusic.play();
         startGame();

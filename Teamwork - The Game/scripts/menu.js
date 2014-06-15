@@ -40,3 +40,7 @@ function showLevelScreen() {
 function showGameSettings() {
     //
 }
+
+function back() {
+    //
+}

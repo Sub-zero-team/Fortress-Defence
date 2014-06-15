@@ -13,13 +13,14 @@
 <body>
     <div id="gamecontainer">
         <a id="title" href="https://github.com/Sub-zero-team/Fortress-Defence">Fortress Defence</a>
-        <img id="music" src="images/icons/sound-on.png" onclick="toggleLevelMusic()" />
+        <img class="button" id="back" src="images/icons/back.png" onclick="back()" />
+        <img class="button" id="music" src="images/icons/sound-on.png" onclick="toggleLevelMusic()" />
         <img id="frame" src="images/frame.png" />
         <div id="kinetic-container"></div>
         <canvas id="myCanvas" width="800" height="600" style="border: 1px solid black;">Your browser does not have support for canvas.</canvas>
         <div id="gamestartscreen" class="gamelayer">
-            <img src="images/icons/button-play1.png" alt="Play Game" onclick="showLevelScreen()" /><br />
-            <img src="images/icons/button-settings1.png" alt="Settings" onclick="showGameSettings()" />
+            <img src="images/icons/button-play.png" alt="Play Game" onclick="showLevelScreen()" /><br />
+            <img src="images/icons/button-settings.png" alt="Settings" onclick="showGameSettings()" />
         </div>
         <div id="levelselectscreen" class="gamelayer"></div>
     </div>

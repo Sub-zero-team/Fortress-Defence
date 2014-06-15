@@ -201,14 +201,21 @@ a {
     text-shadow: 0 0 1px #5BB8C0, 5px 3px 2px white;
 }
 
-#music {
+img.button {
     cursor: pointer;
     display: none;
     position: absolute;
-    margin-top: 55px;
-    margin-left: 710px;
     z-index: 30;
     width: 40px;
+    margin-top: 55px;
+}
+
+#back {
+    margin-left: 50px;
+}
+
+#music {
+    margin-left: 710px;
 }
 
 #myCanvas {
