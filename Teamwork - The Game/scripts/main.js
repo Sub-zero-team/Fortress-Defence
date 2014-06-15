@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-$(document).ready(function() {
+$(document).ready(function () {
     'use strict';
     var stage = new Kinetic.Stage({
         container: 'kinetic-container',
@@ -10,7 +10,7 @@ $(document).ready(function() {
         projectileLayer = new Kinetic.Layer(),
         fortressLayer = new Kinetic.Layer(),
         canonLayer = new Kinetic.Layer(),
-        canvas = document.getElementById('myCanvas'),
+        canvas = document.getElementById('canvas-container'),
         context = canvas.getContext('2d'),
         ships = [],
         level = null,
@@ -21,8 +21,8 @@ $(document).ready(function() {
         canon,
         maxHealth = 100,
         frame,
-        power=1,
-        score= 0,
+        power = 1,
+        score = 0,
         MAX_PROJECTILES = 8;
 
     backgroundMusic.play();
@@ -30,25 +30,24 @@ $(document).ready(function() {
     initializeMenu();
 
     // Helper function shows current mouse cursor coordinates;
-//    document.onmousemove = function(e) {
-//        var x = e.pageX - 550;
-//        var y = e.pageY - 70;
-//        e.target.title = "X: " + x + " Y: " + y;
-//    };
+    //    document.onmousemove = function(e) {
+    //        var x = e.pageX - 550;
+    //        var y = e.pageY - 70;
+    //        e.target.title = "X: " + x + " Y: " + y;
+    //    };
 
     // Set the button click event handlers to load some level
-    $('#levelselectscreen input').click(function(e) {
+    $('#levelselectscreen input').click(function (e) {
         level = e.target.value;
-        document.getElementById('gamecontainer').style.background = "none";
+        $('#game-container').css('background', 'none');
         $('#levelselectscreen').hide('slow');
         $('#gamestartscreen').hide('slow');
         $('#title').hide('slow');
         backgroundMusic.pause();
 
         // Start some level
-        document.getElementById('myCanvas').style.display = "block";
-        document.getElementById('back').style.display = "block";
-        document.getElementById('music').style.display = "block";
+        $('#canvas-container').show();
+        $('nav').show();
         levelMusic.play();
         startGame();
     });
@@ -72,14 +71,14 @@ $(document).ready(function() {
         }
 
         $(document).on('keypress', function (evt) {
-            if(evt.keyCode===32) {
-                if (power < 100 ) {
-                    power+=10;
+            if (evt.keyCode === 32) {
+                if (power < 100) {
+                    power += 10;
                 }
                 console.log(power);
             }
         });
-        $(document).on('keyup', (function(evt) {
+        $(document).on('keyup', (function (evt) {
             if (evt.keyCode === 32) {
                 var i = 0,
                     angle = canon.angleDegrees,
@@ -91,7 +90,7 @@ $(document).ready(function() {
                 for (i = 0; i < MAX_PROJECTILES; i += 1) {
                     if (!projectiles[i].isActive) {
                         projectiles[i].reset(x, y, angle, power);
-                        power=1;
+                        power = 1;
                         break;
                     }
                 }
@@ -112,14 +111,6 @@ $(document).ready(function() {
         }
 
         update();
-        progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth, true, 'red');
-        progressBar(context, 120, 140, 100, 16, power, 100, false, 'green');
-        context.fillStyle = 'black';
-		context.font = '30px Gregorian';
-		 context.fillText('Score: '+ score, 53 ,553 );
-        context.fillStyle = '#b1d8f5';
-      
-        context.fillText('Score: '+ score, 50 ,550 );
     }
 
     function generateShip(sprite, speed, damage, health) {
@@ -153,6 +144,8 @@ $(document).ready(function() {
                         ships.splice(shipCount, 1);
                     } else {
                         if (doObjectsCollide(projectiles[projCount], ships[shipCount])) {
+                            score += ships[shipCount].damage;
+                            bombSound.play();
                             projectiles[projCount].isExploding = true;
                             ships[shipCount].health -= projectiles[projCount].damage;
                         }
@@ -163,15 +156,23 @@ $(document).ready(function() {
 
         fortress.update();
 
-        ships.forEach(function(ship) {
+        ships.forEach(function (ship) {
             ship.update();
             shipsTowerCollision(ship);
         });
 
-        projectiles.forEach(function(proj) {
+        projectiles.forEach(function (proj) {
             proj.update();
         });
 
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth, true, 'red');
+        progressBar(context, 120, 140, 100, 16, power, 100, false, 'green');
+        context.fillStyle = 'black';
+        context.font = '30px Gregorian';
+        context.fillText('Score: ' + score, 643, 78);
+        context.fillStyle = '#b1d8f5';
+        context.fillText('Score: ' + score, 640, 75);
     }
 
     // projectile and ship collision detection
@@ -214,13 +215,13 @@ $(document).ready(function() {
 
         if (fortress.isDestroyed) {
             clearInterval(frame);
-          
-			context.fillStyle = 'black';
-			//context.strokeStyle = 'black';
+
+            context.fillStyle = 'black';
+            //context.strokeStyle = 'black';
             context.font = '60px Gregorian';
-			  context.fillText('GAME OVER', 253 ,403 );
-			  context.fillStyle = '#b1d8f5';
-			  context.fillText('GAME OVER', 250 ,400 );
+            context.fillText('GAME OVER', 253, 403);
+            context.fillStyle = '#b1d8f5';
+            context.fillText('GAME OVER', 250, 400);
         }
     }
 });
