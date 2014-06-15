@@ -40,8 +40,8 @@ $(document).ready(function() {
             shipY = ship.y + SHIP_SPRITE_OFFSET_Y,
             doCollide = false,
             isTopHit = null,
-            isBottomHit = null
-            isFrontHit = null
+            isBottomHit = null,
+            isFrontHit = null,
             isBackHit = null;
 
         isTopHit = (bulletY + projectile.radius) > shipY; // &&
