@@ -111,14 +111,6 @@ $(document).ready(function () {
         }
 
         update();
-        progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth, true, 'red');
-        progressBar(context, 120, 140, 100, 16, power, 100, false, 'green');
-        context.fillStyle = 'black';
-        context.font = '30px Gregorian';
-        context.fillText('Score: ' + score, 53, 553);
-        context.fillStyle = '#b1d8f5';
-
-        context.fillText('Score: ' + score, 50, 550);
     }
 
     function generateShip(sprite, speed, damage, health) {
@@ -152,6 +144,7 @@ $(document).ready(function () {
                         ships.splice(shipCount, 1);
                     } else {
                         if (doObjectsCollide(projectiles[projCount], ships[shipCount])) {
+                            score += ships[shipCount].damage;
                             bombSound.play();
                             projectiles[projCount].isExploding = true;
                             ships[shipCount].health -= projectiles[projCount].damage;
@@ -172,6 +165,14 @@ $(document).ready(function () {
             proj.update();
         });
 
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth, true, 'red');
+        progressBar(context, 120, 140, 100, 16, power, 100, false, 'green');
+        context.fillStyle = 'black';
+        context.font = '30px Gregorian';
+        context.fillText('Score: ' + score, 643, 78);
+        context.fillStyle = '#b1d8f5';
+        context.fillText('Score: ' + score, 640, 75);
     }
 
     // projectile and ship collision detection
