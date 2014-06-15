@@ -1,0 +1,224 @@
+/*
+ *  html5 doctor css reset | http://html5doctor.com/html-5-reset-stylesheet
+ */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+body {
+    line-height: 1;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+    nav ul {
+        list-style: none;
+    }
+
+blockquote, q {
+    quotes: none;
+}
+
+    blockquote:before, blockquote:after, q:before, q:after {
+        content: none;
+    }
+
+a {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+ins {
+    background-color: #ff9;
+    color: #000;
+    text-decoration: none;
+}
+
+mark {
+    background-color: #ff9;
+    color: #000;
+    font-style: italic;
+    font-weight: bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+input, select {
+    vertical-align: middle;
+}
+/*
+ *  End of html5 doctor css reset
+ */
+
+/*Fonts*/
+@font-face {
+    font-family: Gregorian;
+    src: url('fonts/Gregorian.ttf');
+}
+
+@font-face {
+    font-family: KingthingsPetrock;
+    src: url('fonts/KingthingsPetrock.ttf');
+}
+
+body {
+    background: url('images/backgrounds/background-main.jpg');
+}
+
+#kinetic-container {
+    position: absolute;
+    margin: auto;
+    z-index: -10;
+}
+
+#gamecontainer {
+    width: 800px;
+    height: 600px;
+    margin: 70px auto;
+    background: url(images/backgrounds/background-init.png) no-repeat 0 30px;
+}
+
+.gamelayer {
+    width: 800px;
+    position: absolute;
+    display: none;
+}
+
+/* Game Starting Menu Screen */
+#gamestartscreen {
+    padding-top: 320px;
+    height: 230px;
+    text-align: center;
+    z-index: 10;
+}
+
+    #gamestartscreen img {
+        margin: 10px;
+        cursor: pointer;
+        width: 250px;
+    }
+
+        #gamestartscreen img:first-of-type:hover {
+            content: url("images/icons/button-play2.png");
+        }
+
+        #gamestartscreen img:last-of-type:hover {
+            content: url("images/icons/button-settings2.png");
+        }
+
+/* Level Selection Screen */
+#levelselectscreen {
+    padding-top: 200px;
+    padding-left: 60px;
+    width: 700px;
+    z-index: 20;
+}
+
+    #levelselectscreen input {
+        cursor: pointer;
+        background: url(images/icons/button-level.png) no-repeat transparent;
+        background-size: 110px;
+        color: white;
+        text-align: left;
+        text-shadow: 3px 3px 3px #002A2A;
+        margin-right: 30px;
+        padding-left: 18px;
+        padding-bottom: 30px;
+        font-size: 26px;
+        font-family: KingthingsPetrock;
+        font-weight: bold;
+        width: 110px;
+        height: 89px;
+        border: 5px solid transparent;
+        outline: none;
+        opacity: 0.7;
+    }
+
+        #levelselectscreen input:disabled {
+            cursor: default;
+            background: url(images/icons/button-level-locked.png) no-repeat transparent;
+            background-size: 110px;
+        }
+
+        #levelselectscreen input:not(:disabled):hover {
+            opacity: 1;
+        }
+
+#frame {
+    margin: -26px;
+    margin-top: -45px;
+    position: absolute;
+    width: 850px;
+    height: 680px;
+    z-index: 5;
+}
+
+a {
+    margin-top: 100px;
+    margin-left: 110px;
+    text-decoration: none;
+    color: #002A2A;
+    font-family: Gregorian;
+    font-size: 28px;
+    font-size: 6em;
+    height: 28px;
+    line-height: 25px;
+    text-shadow: none;
+    position: absolute;
+    z-index: 100;
+    text-shadow: 0 0 1px #5BB8C0, 5px 3px 2px white;
+}
+
+img.button {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    z-index: 30;
+    width: 40px;
+    margin-top: 55px;
+}
+
+#back {
+    margin-left: 50px;
+}
+
+#music {
+    margin-left: 710px;
+}
+
+#myCanvas {
+    display: none;
+    position: absolute;
+}
