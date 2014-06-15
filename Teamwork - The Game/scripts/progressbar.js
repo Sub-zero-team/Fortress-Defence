@@ -1,12 +1,15 @@
-function progressBar(context, x, y, w, h, power, maxPower) {
+function progressBar(context, x, y, w, h, power, maxPower, hasText, color) {
     // The progress bar
     progressBody(context, x, y, w, h, h / 2);
     progress(context, x, y, power * w / 100, h, h / 2, w);
 
     // Progress power text
-    context.fillStyle = 'white';
-    context.font = '13px Consolas';
-    context.fillText(power + "/" + maxPower, x + w / 2 - 2 * h / 2, y + 3 * h / 4);
+    if(hasText) {
+        context.fillStyle = 'white';
+        context.font = '13px Consolas';
+
+        context.fillText(power + "/" + maxPower, x + w / 2 - 2 * h / 2, y + 3 * h / 4);
+    }
 
     function progressBody(ctx, x, y, width, height, radius) {
         ctx.save();
@@ -26,7 +29,7 @@ function progressBar(context, x, y, w, h, power, maxPower) {
 
     function progress(ctx, x, y, width, height, radius, w) {
         var gradient = context.createLinearGradient(0, y + h, 0, 0);
-        gradient.addColorStop(0, 'red');
+        gradient.addColorStop(0, color);
         gradient.addColorStop(0.3, 'white');
         context.fillStyle = gradient;
         width--;

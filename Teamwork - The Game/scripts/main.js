@@ -20,6 +20,9 @@ $(document).ready(function() {
         fortress,
         canon,
         maxHealth = 100,
+        frame,
+        power=1,
+        score= 0,
         MAX_PROJECTILES = 8;
 
     backgroundMusic.play();
@@ -27,11 +30,11 @@ $(document).ready(function() {
     initializeMenu();
 
     // Helper function shows current mouse cursor coordinates;
-    document.onmousemove = function(e) {
-        var x = e.pageX - 550;
-        var y = e.pageY - 70;
-        e.target.title = "X: " + x + " Y: " + y;
-    };
+//    document.onmousemove = function(e) {
+//        var x = e.pageX - 550;
+//        var y = e.pageY - 70;
+//        e.target.title = "X: " + x + " Y: " + y;
+//    };
 
     // Set the button click event handlers to load some level
     $('#levelselectscreen input').click(function(e) {
@@ -56,9 +59,10 @@ $(document).ready(function() {
         var newProjectile = null,
             i = 0;
 
+
         time = 0.5;
 
-        canon = new Cannon(30, 160, stage, canonLayer);
+        canon = new Cannon(140, 240, stage, canonLayer);
         fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, maxHealth);
 
         // Creates projectiles list
@@ -67,27 +71,35 @@ $(document).ready(function() {
             projectiles.push(newProjectile);
         }
 
+        $(document).on('keypress', function (evt) {
+            if(evt.keyCode===32) {
+                if (power < 100 ) {
+                    power+=10;
+                }
+                console.log(power);
+            }
+        });
         $(document).on('keyup', (function(evt) {
             if (evt.keyCode === 32) {
                 var i = 0,
                     angle = canon.angleDegrees,
-                    power = getRandomInt(10, 80),
                     x = 0,
                     y = 0;
-
                 angle *= Math.PI / 180;
                 x = canon.x + 60 * Math.cos(angle);
                 y = canon.y - 60 * Math.sin(angle);
                 for (i = 0; i < MAX_PROJECTILES; i += 1) {
                     if (!projectiles[i].isActive) {
                         projectiles[i].reset(x, y, angle, power);
+                        power=1;
                         break;
                     }
                 }
+
             }
         }));
 
-        setInterval(animation, 15);
+        frame = setInterval(animation, 15);
     }
 
     function animation() {
@@ -100,8 +112,12 @@ $(document).ready(function() {
         }
 
         update();
-        draw();
-        progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth);
+        progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth, true, 'red');
+        progressBar(context, 120, 140, 100, 16, power, 100, false, 'green');
+
+        context.fillStyle = 'red';
+        context.font = '20px Consolas';
+        context.fillText('Score: '+ score, 50 ,550 );
     }
 
     function generateShip(sprite, speed, damage, health) {
@@ -113,10 +129,8 @@ $(document).ready(function() {
         ship = new Ship(760, y, sprite, stage, shipsLayer, speed, damage, health);
         ships.push(ship);
         ship.draw();
-    }
 
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+
     }
 
     function update() {
@@ -129,14 +143,14 @@ $(document).ready(function() {
         time %= 10000000; // Prevents time from overflow
 
         for (projCount = MAX_PROJECTILES - 1; projCount >= 0; projCount -= 1) {
-            // Checks for collission only if current projectile is active
+            // Checks for collision only if current projectile is active
             if (projectiles[projCount].isActive) {
                 for (shipCount = ships.length - 1; shipCount >= 0; shipCount -= 1) {
                     if (ships[shipCount].isDestroyed) { // Removes destroyed ships
+                        //score+=ships[shipCount].damage;
                         ships.splice(shipCount, 1);
                     } else {
                         if (doObjectsCollide(projectiles[projCount], ships[shipCount])) {
-                            bombSound.play();
                             projectiles[projCount].isExploding = true;
                             ships[shipCount].health -= projectiles[projCount].damage;
                         }
@@ -144,6 +158,7 @@ $(document).ready(function() {
                 }
             }
         }
+
         fortress.update();
 
         ships.forEach(function(ship) {
@@ -196,12 +211,10 @@ $(document).ready(function() {
         }
 
         if (fortress.isDestroyed) {
-            initializeMenu();
+            clearInterval(frame);
+            context.fillStyle = 'red';
+            context.font = '50px Consolas';
+            context.fillText('Game Over', 300 ,350 );
         }
-    }
-
-    function draw() {
-        // Calls drawing functions of the objects
-        // Invoked every frame
     }
 });

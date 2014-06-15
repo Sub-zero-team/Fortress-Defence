@@ -24,8 +24,8 @@
 
     image.src = sprite;
     this.update = function() {
-        if ((this.health <= 0) && !isDestroyed) {
-            isDestroyed = true;
+        if ((this.health <= 0) && !self.isDestroyed) {
+            self.isDestroyed = true;
         }
     }
 }

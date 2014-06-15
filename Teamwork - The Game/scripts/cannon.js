@@ -17,10 +17,10 @@ function Cannon(cannonX, cannonY, stage, layer) {
                 y: cannonY,
                 image: image,
                 width: 60,
-                height: 30,
+                height: 20,
                 offset: {
                     x: 2,
-                    y: 20
+                    y: 8
                 }
             }).rotate(self.angleDegrees); //slight rotation so the fortress is straight
 
@@ -44,6 +44,7 @@ function Cannon(cannonX, cannonY, stage, layer) {
 
             }
         }
+
         layer.add(cannon);
         stage.add(layer);
 
