@@ -33,7 +33,7 @@ $(document).ready(function () {
         $('#title').hide('slow');
         backgroundMusic.pause();
 
-<<<<<<< HEAD
+
     // projectile and ship collision detection
     function doObjectsCollide(projectile, ship) {
         var SHIP_SPRITE_OFFSET_Y = 46,
@@ -59,7 +59,7 @@ $(document).ready(function () {
 
         return doCollide;
     }
-=======
+
         // Start some level
         document.getElementById('myCanvas').style.display = "block";
         document.getElementById('back').style.display = "block";
@@ -67,7 +67,6 @@ $(document).ready(function () {
         levelMusic.play();
         startGame();
     });
->>>>>>> origin/master
 
     function startGame() {
         // Initializes needed content in the beginning
