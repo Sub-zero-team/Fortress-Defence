@@ -24,7 +24,8 @@ $(document).ready(function () {
         power = 1,
         score = 0,
         MAX_HEALTH = 100,
-        MAX_PROJECTILES = 8;
+        MAX_PROJECTILES = 8,
+        MAX_LEVEL_TIME = 60;    //in seconds
 
     backgroundMusic.play();
     backgroundHandler(svgContainer);
@@ -163,6 +164,9 @@ $(document).ready(function () {
             infoBar();
             gameOver();
         }
+        if (time / 10 >= MAX_LEVEL_TIME) {
+            //go to the next level
+        }
     }
 
     // projectile and ship collision detection
@@ -215,6 +219,13 @@ $(document).ready(function () {
         context.fillText('Score: ' + score, 643, 78);
         context.fillStyle = '#b1d8f5';
         context.fillText('Score: ' + score, 640, 75);
+
+        //Timer
+        var timer = MAX_LEVEL_TIME - time / 10;
+        var text = 'Next level in: ' + timer.toFixed(0) + ' seconds';
+        context.fillStyle = 'white';
+        context.font = '16px Consolas';
+        context.fillText(text, 290, 100);
     }
 
     //Game Over screen
