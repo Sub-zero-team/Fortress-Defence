@@ -175,7 +175,6 @@ body {
             padding-left: 60px;
             width: 700px;
             z-index: 20;
-            position: absolute;
         }
 
             body #game-container section section #levelselectscreen input {
@@ -208,13 +207,20 @@ body {
                     opacity: 1;
                 }
 
+        body #game-container section section svg {
+            display: none;
+            z-index: -100;
+        }
+
         body #game-container section section #kinetic-container {
-            position: absolute;
             margin: auto;
             z-index: -10;
         }
 
         body #game-container section section #canvas-container {
             display: none;
-            position: absolute;
         }
+
+    body svg, #kinetic-container, #canvas-container, #levelselectscreen {
+        position: absolute;
+    }

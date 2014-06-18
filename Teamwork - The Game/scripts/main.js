@@ -12,29 +12,23 @@ $(document).ready(function () {
         canonLayer = new Kinetic.Layer(),
         canvas = document.getElementById('canvas-container'),
         context = canvas.getContext('2d'),
+        svgContainer = document.querySelector('svg'),
+        projectiles = [],
         ships = [],
         level = null,
-        projectiles = [],
         time = null,
-        rand,
-        fortress,
-        canon,
-        maxHealth = 100,
-        frame,
+        rand = null,
+        fortress = null,
+        cannon = null,
+        frame = null,
         power = 1,
         score = 0,
+        MAX_HEALTH = 100,
         MAX_PROJECTILES = 8;
 
     backgroundMusic.play();
-    backgroundHandler(stage);
+    backgroundHandler(svgContainer);
     initializeMenu();
-
-    // Helper function shows current mouse cursor coordinates;
-    //    document.onmousemove = function(e) {
-    //        var x = e.pageX - 550;
-    //        var y = e.pageY - 70;
-    //        e.target.title = "X: " + x + " Y: " + y;
-    //    };
 
     // Set the button click event handlers to load some level
     $('#levelselectscreen input').click(function (e) {
@@ -47,6 +41,7 @@ $(document).ready(function () {
 
         // Start some level
         $('#canvas-container').show();
+        $('svg').show();
         $('nav').show();
         levelMusic.play();
         startGame();
@@ -58,11 +53,10 @@ $(document).ready(function () {
         var newProjectile = null,
             i = 0;
 
-
         time = 0.5;
 
-        canon = new Cannon(140, 240, stage, canonLayer);
-        fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, maxHealth);
+        fortress = new Fortress(30, 160, 'images/tower.png', stage, fortressLayer, 20, MAX_HEALTH);
+        cannon = new Cannon(140, 240, stage, canonLayer);
 
         // Creates projectiles list
         for (i = 0; i < MAX_PROJECTILES; i += 1) {
@@ -81,12 +75,12 @@ $(document).ready(function () {
         $(document).on('keyup', (function (evt) {
             if (evt.keyCode === 32) {
                 var i = 0,
-                    angle = canon.angleDegrees,
+                    angle = cannon.angleDegrees,
                     x = 0,
                     y = 0;
                 angle *= Math.PI / 180;
-                x = canon.x + 60 * Math.cos(angle);
-                y = canon.y - 60 * Math.sin(angle);
+                x = cannon.x + 60 * Math.cos(angle);
+                y = cannon.y - 60 * Math.sin(angle);
                 for (i = 0; i < MAX_PROJECTILES; i += 1) {
                     if (!projectiles[i].isActive) {
                         projectiles[i].reset(x, y, angle, power);
@@ -122,8 +116,6 @@ $(document).ready(function () {
         ship = new Ship(760, y, sprite, stage, shipsLayer, speed, damage, health);
         ships.push(ship);
         ship.draw();
-
-
     }
 
     function update() {
@@ -165,14 +157,12 @@ $(document).ready(function () {
             proj.update();
         });
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        progressBar(context, 200, 60, 400, 16, fortress.health, maxHealth, true, 'red');
-        progressBar(context, 120, 140, 100, 16, power, 100, false, 'green');
-        context.fillStyle = 'black';
-        context.font = '30px Gregorian';
-        context.fillText('Score: ' + score, 643, 78);
-        context.fillStyle = '#b1d8f5';
-        context.fillText('Score: ' + score, 640, 75);
+        infoBar();
+        if (fortress.health <= 0) {
+            fortress.health = 0;
+            infoBar();
+            gameOver();
+        }
     }
 
     // projectile and ship collision detection
@@ -207,21 +197,37 @@ $(document).ready(function () {
             fortress.health -= ship.damage;
             if (ship.x <= 0 && ship.y >= 400) {
                 missSound.play();
-            } else {
+            }
+            else {
                 hitSound.play();
-
             }
         }
+    }
 
-        if (fortress.isDestroyed) {
-            clearInterval(frame);
+    function infoBar() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        progressBar(context, 200, 60, 400, 16, fortress.health, MAX_HEALTH, true, 'red');
+        progressBar(context, 120, 140, 100, 8, power, 100, false, 'yellow');
 
-            context.fillStyle = 'black';
-            //context.strokeStyle = 'black';
-            context.font = '60px Gregorian';
-            context.fillText('GAME OVER', 253, 403);
-            context.fillStyle = '#b1d8f5';
-            context.fillText('GAME OVER', 250, 400);
-        }
+        //Scores
+        context.fillStyle = 'black';
+        context.font = '30px Gregorian';
+        context.fillText('Score: ' + score, 643, 78);
+        context.fillStyle = '#b1d8f5';
+        context.fillText('Score: ' + score, 640, 75);
+    }
+
+    //Game Over screen
+    function gameOver() {
+        clearInterval(frame);
+
+        context.fillStyle = 'rgba(255,0,0,0.5)';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        context.fillStyle = 'black';
+        context.font = '60px Gregorian';
+        context.fillText('GAME OVER', 215, 305);
+        context.fillStyle = '#b1d8f5';
+        context.fillText('GAME OVER', 212, 302);
     }
 });
