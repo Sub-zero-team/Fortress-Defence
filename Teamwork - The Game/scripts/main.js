@@ -12,9 +12,13 @@ $(document).ready(function () {
         canonLayer = new Kinetic.Layer(),
         canvas = document.getElementById('canvas-container'),
         context = canvas.getContext('2d'),
+        $levelElements = $('#levelselectscreen'),
+        $settingsElements = $('#settingsscreen'),
+        $highScoreElements = $('#highscoresscreen'),
         svgContainer = document.querySelector('svg'),
         projectiles = [],
         ships = [],
+        levels = [],
         level = null,
         time = null,
         rand = null,
@@ -25,28 +29,32 @@ $(document).ready(function () {
         score = 0,
         MAX_HEALTH = 100,
         MAX_PROJECTILES = 8,
-        MAX_LEVEL_TIME = 60;    //in seconds
+        MAX_LEVEL_TIME = 100;    //in seconds
 
     backgroundMusic.play();
     backgroundHandler(svgContainer);
-    initializeMenu();
+    //initializeMenu(levels);
 
-    // Set the button click event handlers to load some level
-    $('#levelselectscreen input').click(function (e) {
-        level = e.target.value;
-        $('#game-container').css('background', 'none');
-        $('#levelselectscreen').hide('slow');
-        $('#gamestartscreen').hide('slow');
-        $('#title').hide('slow');
-        backgroundMusic.pause();
+    for (var i = 0; i < $levelElements.length; i++) {
+        $levelElements[i].style.display = 'none';
+    }
+    $('#gamestartscreen').show();
 
-        // Start some level
-        $('#canvas-container').show();
-        $('svg').show();
-        $('nav').show();
-        levelMusic.play();
-        startGame();
-    });
+    // Temporary: 15 levels (without parameters) just for example
+    {
+        levels.push(new Level(1, false));
+        for (var i = 2; i < 16; i++) {
+            var someLevel = new Level(i, true);
+            levels.push(someLevel);
+        }
+    }
+
+    printLevelButtons();
+
+    function Level(level, isLocked) {
+        this.level = level;
+        this.isLocked = isLocked;
+    }
 
     function startGame() {
         // Initializes needed content in the beginning
@@ -135,13 +143,12 @@ $(document).ready(function () {
                     if (ships[shipCount].isDestroyed) { // Removes destroyed ships
                         //score+=ships[shipCount].damage;
                         ships.splice(shipCount, 1);
-                    } else {
-                        if (doObjectsCollide(projectiles[projCount], ships[shipCount])) {
-                            score += ships[shipCount].damage;
-                            bombSound.play();
-                            projectiles[projCount].isExploding = true;
-                            ships[shipCount].health -= projectiles[projCount].damage;
-                        }
+                    }
+                    else if (doObjectsCollide(projectiles[projCount], ships[shipCount])) {
+                        score += ships[shipCount].damage;
+                        bombSound.play();
+                        projectiles[projCount].isExploding = true;
+                        ships[shipCount].health -= projectiles[projCount].damage;
                     }
                 }
             }
@@ -164,9 +171,66 @@ $(document).ready(function () {
             infoBar();
             gameOver();
         }
-        if (time / 10 >= MAX_LEVEL_TIME) {
-            //go to the next level
+        else if (time / 10 >= MAX_LEVEL_TIME) {
+            time = 0;
+            levels[level].isLocked = false; // enable the next level
+            printLevelButtons();
+            goBack();
         }
+    }
+
+    function printLevelButtons() {
+        var html = '';
+        for (var i = 0; i < levels.length; i++) {
+            html += '<input type="button" ' +
+                ((levels[i].isLocked) ? 'disabled' : '') +
+                ' value="' + (i + 1) + '">';
+        }
+
+        $levelElements.html(html);
+
+        //Levels screen
+        $('#gamestartscreen img:first-of-type').on('click', function () {
+            $('#gamestartscreen').hide();
+            $levelElements.show('slow');
+        });
+
+        //Settings screen
+        $('#gamestartscreen img:nth-of-type(2)').on('click', function () {
+            $('#gamestartscreen').hide();
+            $settingsElements.show('slow');
+
+            //TODO...
+        });
+
+        //High scores screen
+        $('#gamestartscreen img:last-of-type').on('click', function () {
+            $('#gamestartscreen').hide();
+            $highScoreElements.show('slow');
+
+            //TODO...
+        });
+
+        // Set the button click event handlers to load some level
+        $('#levelselectscreen input').click(function (e) {
+            level = e.target.value;
+            $('#game-container').css('background', 'none');
+            $('#levelselectscreen').hide('slow');
+            $('#gamestartscreen').hide('slow');
+            $('#title').hide('slow');
+            backgroundMusic.pause();
+
+            // Start some level
+            $('#canvas-container').show();
+            $('svg').show();
+            $('nav').show();
+            levelMusic.play();
+            startGame();
+        });
+
+        $('#back').on('click', function () {
+            goBack();
+        });
     }
 
     // projectile and ship collision detection
@@ -240,5 +304,24 @@ $(document).ready(function () {
         context.fillText('GAME OVER', 215, 305);
         context.fillStyle = '#b1d8f5';
         context.fillText('GAME OVER', 212, 302);
+    }
+
+    function goBack() {
+        levelMusic.pause();
+        backgroundMusic.play();
+        $('#gamestartscreen').hide('slow');
+        $('#canvas-container').hide();
+        $('nav').hide();
+        $('svg').hide();
+        $('#game-container').css('background', '');
+        $('#title').show('slow');
+        $('#levelselectscreen').show('slow');
+
+        //Reset all level settings
+        clearInterval(frame);
+        time = 0;
+        ships = [];
+        fortress = null;
+        cannon = null;
     }
 });
