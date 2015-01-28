@@ -156,8 +156,12 @@ body {
                     content: url("images/icons/button-play2.png");
                 }
 
-                body #game-container section #gamestartscreen img:last-of-type:hover {
+                body #game-container section #gamestartscreen img:nth-of-type(2):hover {
                     content: url("images/icons/button-settings2.png");
+                }
+
+                body #game-container section #gamestartscreen img:last-of-type:hover {
+                    content: url("images/icons/button-high-scores2.png");
                 }
 
         body #game-container section section #frame {
@@ -175,7 +179,6 @@ body {
             padding-left: 60px;
             width: 700px;
             z-index: 20;
-            position: absolute;
         }
 
             body #game-container section section #levelselectscreen input {
@@ -208,13 +211,33 @@ body {
                     opacity: 1;
                 }
 
-        body #game-container section section #kinetic-container {
+        /* Settings and High-Scores screens */
+        body #game-container section section #settingsscreen, #highscoresscreen {
             position: absolute;
+            display: none;
+            margin-top: 200px;
+            margin-left: 280px;
+            width: 250px;
+            height: 300px;
+            background: lightblue;
+            opacity: 0.3;
+            z-index: 20;
+        }
+
+        body #game-container section section svg {
+            display: none;
+            z-index: -100;
+        }
+
+        body #game-container section section #kinetic-container {
             margin: auto;
             z-index: -10;
         }
 
         body #game-container section section #canvas-container {
             display: none;
-            position: absolute;
         }
+
+    body svg, #kinetic-container, #canvas-container, #levelselectscreen {
+        position: absolute;
+    }

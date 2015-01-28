@@ -10,8 +10,8 @@ function Cannon(cannonX, cannonY, stage, layer) {
     self.y = cannonY;
     self.angleDegrees = INITIAL_ANGLE;
 
-    self.draw = new function() {
-        image.onload = function() {
+    self.draw = new function () {
+        image.onload = function () {
             cannon = new Kinetic.Image({
                 x: cannonX,
                 y: cannonY,
@@ -30,23 +30,21 @@ function Cannon(cannonX, cannonY, stage, layer) {
     };
     image.src = 'images/gun.png';
 
-    $(document).keydown(function(e) {
+    $(document).keydown(function (e) {
         if (e.keyCode == 38) {
             if (self.angleDegrees < 60) {
                 cannon.rotate(-1);
-                self.angleDegrees += 1;
+                self.angleDegrees++;
             }
         }
         if (e.keyCode == 40) {
             if (self.angleDegrees > 0) {
                 cannon.rotate(1);
-                self.angleDegrees -= 1;
-
+                self.angleDegrees--;
             }
         }
 
         layer.add(cannon);
         stage.add(layer);
-
     });
 }

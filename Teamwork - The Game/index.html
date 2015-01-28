@@ -16,23 +16,26 @@
         </header>
         <section>
             <nav>
-                <img id="back" src="images/icons/back.png" onclick="back()" />
-                <img id="music" src="images/icons/sound-on.png" onclick="toggleLevelMusic()" />
+                <img id="back" src="images/icons/back.png" />
+                <img id="music" src="images/icons/sound-on.png" />
             </nav>
             <section id="gamestartscreen">
-                <img src="images/icons/button-play.png" alt="Play Game" onclick="showLevelScreen()" /><br />
-                <img src="images/icons/button-settings.png" alt="Settings" onclick="showGameSettings()" />
+                <img src="images/icons/button-play.png" alt="Play Game" /><br />
+                <img src="images/icons/button-settings.png" alt="Settings" /><br />
+                <img src="images/icons/button-high-scores.png" alt="High Scores" />
             </section>
             <section>
                 <img id="frame" src="images/frame.png" />
                 <div id="levelselectscreen"></div>
+                <div id="settingsscreen"></div>
+                <div id="highscoresscreen"></div>
+                <svg width="800" height="600"></svg>
                 <div id="kinetic-container"></div>
                 <canvas id="canvas-container" width="800" height="600">Your browser does not have support for canvas.</canvas>
             </section>
         </section>
     </section>
     <script src="scripts/main.js"></script>
-    <script src="scripts/menu.js"></script>
     <script src="scripts/background.js"></script>
     <script src="scripts/progressbar.js"></script>
     <script src="scripts/sound.js"></script>
